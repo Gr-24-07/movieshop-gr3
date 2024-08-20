@@ -5,62 +5,84 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
-model Movies {
-  id String @id @default(cuid()) @unique
-  title String
-  director Director []
-  price Int
-  releaseYear Int
-  imageUrl String
-  orderItems OrderItem[]
-  actorsName Actors []
+enum Role {
+    ADMIN
+    CUSTOMER
+    ACTOR
+    DIRECTOR
 }
 
-model Genres {
-  id String @id @default(cuid()) @unique
-  name String
-  description String
+model User {
+    id          String          @id @default(cuid()) @unique
+    name        String
+    email       String          @unique
+    password    String
+    role        Role
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+    orders      Order[]
+}
+
+model Movie {
+    id          String           @id @default(cuid()) @unique
+    title       String
+    price       Int
+    releaseYear Int
+    imageUrl    String
+    orderItems  OrderItem[]
+    persons     PersonsInMovies[]
+    genres      Genre[]         @relation("MovieGenres")
+}
+
+model Genre {
+    id          String          @id @default(cuid()) @unique
+    name        String
+    description String
+    movies      Movie[]         @relation("MovieGenres")
 }
 
 model Order {
-  id String @id @default(cuid()) @unique
-  totalAmount Int
-  status Boolean
-  orderDate DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  }
+    id          String          @id @default(cuid()) @unique
+    totalAmount Int
+    status      Boolean
+    customerId  String
+    customer    User            @relation(fields: [customerId], references: [id])
+    orderItems  OrderItem[]
+    orderDate   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+}
 
 model OrderItem {
-  id String @id @default(cuid()) @unique
-  movieId String 
-  movies Movies @relation(fields: [movieId], references: [id])
-  quantity Int
-  priceAtPurchase Int
+    id              String      @id @default(cuid()) @unique
+    movieId         String
+    orderId         String
+    movie           Movie       @relation(fields: [movieId], references: [id])
+    order           Order       @relation(fields: [orderId], references: [id])
+    quantity        Int
+    priceAtPurchase Int
 }
 
-model Actors {
-  id String @id @default(cuid()) @unique
-  moviesId String
-  name String
-  description String
-  movie Movies @relation(fields: [moviesId], references: [id])
-  createdAt DateTime @default(now())
+model Person {
+    id          String          @id @default(cuid()) @unique
+    name        String
+    description String
+    role        Role
+    createdAt   DateTime        @default(now())
+    movies      PersonsInMovies[]
 }
 
-model Director {
-  id String @id @default(cuid()) @unique
-  moviesId String
-  name String
-  description String
-  directorMovie Movies @relation(fields: [moviesId], references: [id])
-  createdAt DateTime @default(now())
+model PersonsInMovies {
+    id        String            @id @default(cuid()) @unique
+    movieId   String
+    movie     Movie             @relation(fields: [movieId], references: [id])
+    personId  String
+    person    Person            @relation(fields: [personId], references: [id])
 }
-
