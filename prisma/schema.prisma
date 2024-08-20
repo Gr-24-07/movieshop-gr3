@@ -16,8 +16,6 @@ datasource db {
 enum Role {
     ADMIN
     CUSTOMER
-    ACTOR
-    DIRECTOR
 }
 
 model User {
@@ -70,11 +68,16 @@ model OrderItem {
     priceAtPurchase Int
 }
 
+enum MovieRol {
+    ACTOR
+    DIRECTOR
+}
+
 model Person {
     id          String          @id @default(cuid()) @unique
     name        String
     description String
-    role        Role
+    role        MovieRol
     createdAt   DateTime        @default(now())
     movies      PersonsInMovies[]
 }
