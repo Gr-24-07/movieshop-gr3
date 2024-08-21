@@ -1,4 +1,4 @@
-import MovieCard, { MovieProp } from "@/components/MovieCard";
+import MovieCard, { MovieProp } from "./components/MovieCard";
 
 export default  async function Home() {
     const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=4bd1384ac2f13ea51c45906c0d46fd27`);
