@@ -5,19 +5,17 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
     ADMIN
     CUSTOMER
-    ACTOR
-    DIRECTOR
 }
 
 model User {
@@ -70,11 +68,16 @@ model OrderItem {
     priceAtPurchase Int
 }
 
+enum MovieRol {
+    ACTOR
+    DIRECTOR
+}
+
 model Person {
     id          String          @id @default(cuid()) @unique
     name        String
     description String
-    role        Role
+    role        MovieRol
     createdAt   DateTime        @default(now())
     movies      PersonsInMovies[]
 }
