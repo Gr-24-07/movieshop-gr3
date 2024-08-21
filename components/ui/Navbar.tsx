@@ -3,6 +3,8 @@ import Link from 'next/link'
 import React from 'react'
 import { usePathname } from 'next/navigation'
 import classNames from 'classnames'
+import { FaCartShopping } from "react-icons/fa6";
+import { BiSolidCameraMovie } from "react-icons/bi";
 
 const Navbar = () => {
     const currentPage = usePathname();
@@ -13,7 +15,7 @@ const Navbar = () => {
     ]
     return (
         <nav className='flex space-x-10 items-center h-20 text-xl navbar'>
-            <Link href='/' className="text-white mx-10c">Logo</Link>
+            <Link href='/' className="text-white mx-10c"><span className='flex gap-2 items-center'><BiSolidCameraMovie className='text-5xl' />Movie<strong>Vault</strong></span></Link>
             <ul className="flex space-x-10"> 
                 {
                     links.map(link => (
@@ -27,7 +29,7 @@ const Navbar = () => {
                     ))
                 }
             </ul>
-          
+            <Link href='/' className="text-white mx-10c"><FaCartShopping /></Link>
         </nav>
     )
 }
