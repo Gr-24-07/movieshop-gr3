@@ -21,6 +21,7 @@ const Navbar = () => {
         <nav className='flex space-x-10 items-center h-20 text-xl navbar'>
             
             <Link href='/' className="text-white mx-10c"><span className='flex gap-2 items-center'><BiSolidCameraMovie className='text-5xl' />Movie<strong>Vault</strong></span></Link>
+          
             <ul className="flex space-x-10"> 
                 {
                     links.map(link => (
@@ -38,6 +39,7 @@ const Navbar = () => {
                 {
                     login ? 
                         <div>
+                
                             <Link href={'api/auth/signout'}><AiOutlineUser className='text-5xl' /></Link> 
                             <Button />
                         </div>

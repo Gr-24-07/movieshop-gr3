@@ -5,125 +5,35 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-enum Role {
-    ADMIN
-    CUSTOMER
-}
-model Account {
-    id                 String  @id @default(cuid())
-    userId             String  @map("user_id")
-    type               String
-    provider           String
-    providerAccountId  String  @map("provider_account_id")
-    refresh_token      String? @db.Text
-    access_token       String? @db.Text
-    expires_at         Int?
-    token_type         String?
-    scope              String?
-    id_token           String? @db.Text
-    session_state      String?
-    
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    
-    @@unique([provider, providerAccountId])
-}
- 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique @map("session_token")
-    userId       String   @map("user_id")
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    
-    @@map("sessions")
-}
- 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime? @map("email_verified")
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    orders      Order[]
-    role        Role
-    @@map("users")
-}
- 
-model VerificationToken {
-    identifier String
-    token      String
-    expires    DateTime
-    
-    @@unique([identifier, token])
-}
-
-model Movie {
-    id          String           @id @default(cuid()) @unique
+model Movies {
+    id          Int @id @default(autoincrement())
     title       String
-    price       Int
     releaseYear Int
-    imageUrl    String
-    orderItems  OrderItem[]
-    persons     PersonsInMovies[]
-    genres      Genre[]         @relation("MovieGenres")
+    posterPath  String
+    genres      MovieGenre[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
 }
 
 model Genre {
-    id          String          @id @default(cuid()) @unique
-    name        String
-    description String
-    movies      Movie[]         @relation("MovieGenres")
+    id      Int  @id @default(autoincrement())
+    name    String @unique
+    movies  MovieGenre[]
 }
+ 
+ model MovieGenre {
+    movieId Int
+    genreId Int
+    movies  Movies @relation(fields: [movieId], references: [id])
+    genres  Genre  @relation(fields: [genreId], references: [id])
 
-model Order {
-    id          String          @id @default(cuid()) @unique
-    totalAmount Int
-    status      Boolean
-    customerId  String
-    customer    User            @relation(fields: [customerId], references: [id])
-    orderItems  OrderItem[]
-    orderDate   DateTime        @default(now())
-    updatedAt   DateTime        @updatedAt
-}
-
-model OrderItem {
-    id              String      @id @default(cuid()) @unique
-    movieId         String
-    orderId         String
-    movie           Movie       @relation(fields: [movieId], references: [id])
-    order           Order       @relation(fields: [orderId], references: [id])
-    quantity        Int
-    priceAtPurchase Int
-}
-
-enum MovieRol {
-    ACTOR
-    DIRECTOR
-}
-
-model Person {
-    id          String          @id @default(cuid()) @unique
-    name        String
-    description String
-    role        MovieRol
-    createdAt   DateTime        @default(now())
-    movies      PersonsInMovies[]
-}
-
-model PersonsInMovies {
-    id        String            @id @default(cuid()) @unique
-    movieId   String
-    movie     Movie             @relation(fields: [movieId], references: [id])
-    personId  String
-    person    Person            @relation(fields: [personId], references: [id])
+    @@id([movieId, genreId])
 }

@@ -1,0 +1,22 @@
+{
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 5432,
+			"driver": "PostgreSQL",
+			"name": "ecom",
+			"database": "Ecom",
+			"username": "masster"
+		},
+		{
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 5432,
+			"driver": "PostgreSQL",
+			"name": "moviedb",
+			"database": "MovieDB",
+			"username": "masster"
+		}
+	]
+}
