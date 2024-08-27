@@ -4,13 +4,8 @@ import Movie from '@prisma/client'
 export interface MovieProp {
     id: number;
     title: string;
-
-    backdrop_path: string;
-  
-    release_date: number;
-    genres: string[];
     poster_path: string;
-    release_date: string; 
+    release_date: number;
     genres: [string];
     price: number;
 }
@@ -31,7 +26,7 @@ export default async function MovieCard({movie}: Prop) {
                     <div className="runded-lg">
                         <div className="w-full">
                             <div className="relative w-full h-[37vh]">
-                                <img src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}className="h-full w-full object-cover object-center lg:h-full lg:w-full" alt='movie poster'/>
+                                <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}className="h-full w-full object-cover object-center lg:h-full lg:w-full" alt='movie poster'/>
                                 <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}className="h-full w-full object-cover object-center lg:h-full lg:w-full" alt='movie poster'/>
                             </div>
                             <div className="mt-4 flex justify-between">
