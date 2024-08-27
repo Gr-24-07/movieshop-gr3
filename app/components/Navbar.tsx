@@ -6,8 +6,6 @@ import classNames from 'classnames'
 import { FaCartShopping } from "react-icons/fa6";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import { AiOutlineUser } from "react-icons/ai";
-import Button from './Button'
-
 
 const Navbar = () => {
     const [login, setLogin] = useState(false)
@@ -16,6 +14,7 @@ const Navbar = () => {
         {lable: 'Movies', href: '/'},
         {lable: 'Actors', href: '/actors'},
         {lable: 'contact', href: '/contact'},
+        {lable: 'MoviesDB', href: '/moviesdb-page'},
     ]
     return (
         <nav className='flex space-x-10 items-center h-20 text-xl navbar'>
@@ -41,7 +40,7 @@ const Navbar = () => {
                         <div>
                 
                             <Link href={'api/auth/signout'}><AiOutlineUser className='text-5xl' /></Link> 
-                            <Button />
+                            
                         </div>
                         
                     : 
