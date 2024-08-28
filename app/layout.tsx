@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
 
+<<<<<<< Updated upstream
         <body className={cn(
             "min-h-screen bg-background font-sans antialiased",
             fontSans.variable
@@ -33,6 +34,20 @@ export default function RootLayout({
             </header>
             <main>{children} </main>
             </body>
+=======
+      <body className={cn(
+        "min-h-screen  font-sans antialiased",
+        fontSans.variable
+      )}
+      >
+        <header>
+          <Navbar />
+        </header>
+        <main>
+           {children}
+        </main>
+        </body>
+>>>>>>> Stashed changes
     </html>
   );
 }
