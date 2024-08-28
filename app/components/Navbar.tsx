@@ -44,7 +44,11 @@ const Navbar = () => {
                         </div>
                         
                     : 
-                        <Link className='flex items-center border border-slate-50 px-3 py-1 rounded-xl text-center' href={'api/auth/signin'}><AiOutlineUser className='text-2xl text-slate-50'/></Link>
+                    <div className="flex space-x-5 items-center text-slate-100">
+                         <Link className='flex items-center border border-slate-50 px-3 py-1 rounded text-center' href={'/api/auth/signin'}>Sign in</Link>
+                        <Link className='flex items-center border border-slate-50 px-3 py-1 rounded text-center' href={'/api/auth/register'}>Register</Link>
+                    </div>
+                       
                 }
                 <Link href='/' className="text-white mx-10"><FaCartShopping /></Link>
             </div>

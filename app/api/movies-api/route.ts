@@ -1,6 +1,5 @@
 // app/api/fetchMovies/route.js
-import { MovieProp } from '@/app/components/MovieCard';
-import { prisma } from '@/lib/prisma'
+import prisma from "@/lib/prisma";
 
 export async function GET(req: Request) {
 
@@ -32,12 +31,13 @@ export async function GET(req: Request) {
         });
 
         for (const movie of results) {
-            const insertMovie = await prisma.movies.upsert({
+            const insertMovie = await prisma.movie.upsert({
                 where: { id: movie.id },
                 update: {},
                 create: {
                     id: movie.id,
                     title: movie.title,
+                    overview: movie.overview,
                     posterPath: movie.poster_path,
                     releaseYear: new Date(movie.release_date).getFullYear(),
                     genres: movie.genres,
