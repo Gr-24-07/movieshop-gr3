@@ -17,8 +17,8 @@ model Movie {
     id          Int @id @default(autoincrement())
     title       String
     overview    String
-    releaseYear Int
-    posterPath  String
+    release_date Int
+    poster_path  String
     genres      MovieGenre[]
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now())

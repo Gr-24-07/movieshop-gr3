@@ -4,8 +4,8 @@ import Image from 'next/image';
 export interface MovieProp {
     id: number;
     title: string;
-    releaseYear: number;
-    posterPath: string;
+    release_date: number;
+    poster_path: string;
     price: number;
 }
   
@@ -24,14 +24,14 @@ export default async function MovieCard({movie}: Prop) {
                     <div className="runded-lg">
                         <div className="w-full">
                             <div className="relative w-full h-[50vh]">
-                                <Image layout='fill' src={`https://image.tmdb.org/t/p/original/${movie.posterPath}`} 
+                                <Image layout='fill' src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} 
                                 className="h-full w-full object-cover object-center lg:h-full lg:w-full" alt='movie poster'/>
                             </div>
                             <div className="mt-4 flex justify-between">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
                                     <a href="#">
-                                        <span aria-hidden="true" className="absolute inset-0"></span>{movie.releaseYear}
+                                        <span aria-hidden="true" className="absolute inset-0"></span>{movie.release_date}
                                     </a>
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-500">{movie.title}</p>

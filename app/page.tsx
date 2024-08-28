@@ -16,30 +16,30 @@
 
 // app/page.js (or another page/component)
 
-'use client';
+// 'use client';
 
-import React from 'react';
+// import React from 'react';
 
-const fetchAndStoreMovies = async () => {
-  try {
-    const response = await fetch('/api/movies-api');
-    if (!response.ok) {
-      throw new Error('Failed to fetch data from API route');
-    }
-    const result = await response.json();
-    console.log(result.message);
-  } catch (error) {
-    console.error('Error fetching and storing movies:', error);
-  }
-};
+// const fetchAndStoreMovies = async () => {
+//   try {
+//     const response = await fetch('/api/movies-api');
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch data from API route');
+//     }
+//     const result = await response.json();
+//     console.log(result.message);
+//   } catch (error) {
+//     console.error('Error fetching and storing movies:', error);
+//   }
+// };
 
-const Page = () => {
-  return (
-    <div>
-      <h1>Movie Data</h1>
-      <button onClick={fetchAndStoreMovies}>Fetch and Store Movies</button>
-    </div>
-  );
-};
+// const Page = () => {
+//   return (
+//     <div>
+//       <h1>Movie Data</h1>
+//       <button onClick={fetchAndStoreMovies}>Fetch and Store Movies</button>
+//     </div>
+//   );
+// };
 
-export default Page;
+// export default Page;

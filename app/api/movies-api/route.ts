@@ -41,7 +41,7 @@ export async function GET(req: Request) {
                     posterPath: movie.poster_path,
                     releaseYear: new Date(movie.release_date).getFullYear(),
                     genres: movie.genres,
-                    price: 100
+                    price: 10
                 }
             });
 
