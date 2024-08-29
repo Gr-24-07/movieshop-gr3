@@ -13,7 +13,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex flex-col flex-1">
-                <div className="flex flex-row text-white justify-between gap-1 mb-5">
+                <div className="flex flex-row justify-between gap-1 mb-5">
                     <DashboardCard
                         title='Users'
                         count={100}
