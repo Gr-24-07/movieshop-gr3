@@ -8,7 +8,7 @@ import {
   Table,
 } from "@/components/ui/table";
 import { prisma } from "@/lib/prisma";
-import DeleteButton from "../components/delete-button";
+import DeleteButton from "../../components/ui/delete-button";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";

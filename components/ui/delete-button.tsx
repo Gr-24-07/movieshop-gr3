@@ -1,7 +1,7 @@
 "use client";
 
 import { Trash2 } from 'lucide-react';
-import { DeleteMovie } from '../actions/delete';
+import { DeleteMovie } from '../../app/actions/delete';
 
 
 function DeleteButton({ id }: { id: number }) {

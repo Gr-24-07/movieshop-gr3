@@ -1,6 +1,6 @@
 "use client";
 
-import Form from "./components/form";
+import Form from "../components/ui/form";
 
 const fetchAndStoreMovies = async () => {
   try {

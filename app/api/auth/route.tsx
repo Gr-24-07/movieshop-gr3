@@ -45,6 +45,6 @@ export async function POST(req: Request) {
         }
     })
 
-    revalidatePath('/')
+    revalidatePath('/auth/signin')
     
 }
