@@ -38,8 +38,8 @@ export async function GET(req: Request) {
                     id: movie.id,
                     title: movie.title,
                     overview: movie.overview,
-                    posterPath: movie.poster_path,
-                    releaseYear: new Date(movie.release_date).getFullYear(),
+                    poster_path: movie.poster_path,
+                    release_date: new Date(movie.release_date).getFullYear(),
                     genres: movie.genres,
                     price: 10
                 }

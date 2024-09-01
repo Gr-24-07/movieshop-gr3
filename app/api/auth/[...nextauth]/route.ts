@@ -1,74 +1,97 @@
-import prisma from '@/lib/prisma';
-import { PrismaAdapter } from '@auth/prisma-adapter';
+import NextAuth, { NextAuthOptions, Session } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '@/lib/prisma'; // Your Prisma client setup
 import { compare } from 'bcrypt';
-import NextAuth from 'next-auth';
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google"
+import { Role } from '@prisma/client';
+import { AdapterUser } from 'next-auth/adapters';
 
-
-
-
-interface User {
-    id?: string | null | undefined;
-    name?: string | null | undefined;
-    email?: string | null | undefined;
-    image?: string | null | undefined;
+interface CustomAdapterUser extends AdapterUser {
+    role: Role
 }
-
-export const authOptions = ({ 
-    // Configure one or more authentication providers
+  
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
-
-    providers : [
+    providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET! 
+        }),
         CredentialsProvider({
             name: 'Credentials',
-           
-            async authorize(credentials, req) {
-                if (!credentials?.email || !credentials.password) {
-                    throw new Error('Invalid credentials');
-                }
+            credentials: {
+                email: { label: 'Email', type: 'text' },
+                password: {  label: 'Password', type: 'password' },
+            },
+            async authorize(credentials) {
+                const { email, password } = credentials as { email: string; password: string };
 
-                const user = await prisma.user.findFirst({
+                const user = await prisma.user.findUnique ({
                     where: {
-                        email: credentials?.email
+                        email: email
                     }
                 });
 
-                if(user && user.password && (await compare(credentials.password as string, user.password))) {
-                    return {id: user.id, email: user.email}
+            
+
+                if( user && user.password && (await compare(password, user.password ))) {
+                   
+                    return {id: user.id, name: user.name, email: user.email, role: user.role}
+                    
                 }
 
-                throw new Error('Invalid credentials');
-            }
-        }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_ID!,
-            clientSecret: process.env.GOOGLE_SECRET!
-        }),
+                throw new Error('Invalid credentials, please try again');
+            },
+        })
     ],
-    session: {
-        strategy: "jwt" as "jwt" | "database" | undefined
+    callbacks: {
+        async session({ session, token }) {
+           
+            if (token) {
+                session.user.id = token.id as string;
+                session.user.role = token.role;
+            }
+      
+            return session;
+        },
+        async signIn({ user, account }) {
+
+            if (account?.provider === 'google') {
+                await prisma.user.upsert({
+                    where: { email: user.email! },
+                    update: { image: user.image},
+                    create: {
+                        email: user.email!,
+                        image: user.image,
+                        name: user.name || user.name,
+                        role: Role.CUSTOMER
+                    }
+                })
+            }
+
+            return true;
+        },
+        async jwt({ token, user }) {
+            if (user) {
+                token.role = (user as CustomAdapterUser).role;
+                token.id = user.id;
+            }
+            return token;
+        },
+        
     },
     pages: {
-        signIn: "api/auth/signin"
+        signIn: '/auth/signin',
+        signOut: '/',
+        error: '/auth/error',
     },
-    callbacks: {
-      async session({ session, token }: { session: any; token: any }) {
-        if (token) {
-          session.user = session.user ?? {} as User;
-          session.user.id = token.sub;
-        }
-        return session;
-      },
-      async jwt({ token, user }: { token: any; user: User }) {
-        if (user) {
-          token.id = user.id;
-        }
-        return token;
-      },
+    session: {
+        strategy: "jwt"
     },
-    secret: process.env.NEXTAUTH_SECRET,
-})
-
+    secret: process.env.NEXTAUTH_SECRET
+}
+    
 const handler = NextAuth(authOptions)
+
 export { handler as GET, handler as POST }

@@ -29,16 +29,17 @@ export default async function MovieCard({movie}: Prop) {
                             <div className="relative w-full h-[50vh]">
                                 <Image layout='fill' src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} 
                                 className="h-full w-full object-cover object-center lg:h-full lg:w-full" alt='movie poster'/>
-                            <div className="mt-4 flex justify-between">
-                                <div>
-                                    <h3 className="text-sm text-gray-700">
-                                    <a href="#">
-                                        <span aria-hidden="true" className="absolute inset-0"></span>{movie.release_date}
-                                    </a>
-                                    </h3>
-                                    <p className="mt-1 text-sm text-gray-500">{movie.title}</p>
+                                <div className="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 className="text-sm text-gray-700">
+                                        <a href="#">
+                                            <span aria-hidden="true" className="absolute inset-0"></span>{movie.release_date}
+                                        </a>
+                                        </h3>
+                                        <p className="mt-1 text-sm text-gray-500">{movie.title}</p>
+                                    </div>
+                                    <p className="text-sm font-medium text-gray-900">{movie.price}</p>
                                 </div>
-                                <p className="text-sm font-medium text-gray-900">{movie.price}</p>
                             </div>
                         </div>
                     </div>

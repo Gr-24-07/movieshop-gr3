@@ -1,11 +1,12 @@
+import SignInPage from '@/app/authForms/signin'
 import React from 'react'
-import SignIn from '@/components/signin'
 
-export default function Signin() {
+
+export default function SigninPage() {
     return (
         <div>
             <h1>Signin</h1>
-            <SignIn />
+            <SignInPage />
         </div>
     )
 }
