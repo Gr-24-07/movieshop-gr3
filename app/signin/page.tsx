@@ -1,4 +1,4 @@
-import SignInPage from '@/app/authForms/signin'
+import SignInPage from '@/app/signin/signin'
 import React from 'react'
 
 
