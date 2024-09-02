@@ -48,33 +48,22 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async session({ session, token }) {
            
-            if (token) {
-                session.user.id = token.id as string;
-                session.user.role = token.role;
+            if (token && session.user) {
+                const user = await prisma.user.findUnique({
+                    where: {
+                        id: token.id
+                    }
+                })
+                if (user) {
+                    session.user.id = user.id
+                    session.user.role = user.role
+                }
             }
       
             return session;
         },
-        async signIn({ user, account }) {
-
-            if (account?.provider === 'google') {
-                await prisma.user.upsert({
-                    where: { email: user.email! },
-                    update: { image: user.image},
-                    create: {
-                        email: user.email!,
-                        image: user.image,
-                        name: user.name || user.name,
-                        role: Role.CUSTOMER
-                    }
-                })
-            }
-
-            return true;
-        },
         async jwt({ token, user }) {
             if (user) {
-                token.role = (user as CustomAdapterUser).role;
                 token.id = user.id;
             }
             return token;
