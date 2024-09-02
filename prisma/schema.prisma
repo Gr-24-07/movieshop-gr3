@@ -14,28 +14,28 @@ datasource db {
 }
 
 model Movie {
-    id          Int @id @default(autoincrement())
-    title       String
-    overview    String
+    id           Int          @id @default(autoincrement())
+    title        String
+    overview     String
     release_date Int
     poster_path  String
-    genres      MovieGenre[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now())
-    price       Int
+    genres       MovieGenre[]
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @default(now())
+    price        Int
 }
 
 model Genre {
-    id      Int  @id @default(autoincrement())
-    name    String @unique
-    movies  MovieGenre[]
+    id     Int          @id @default(autoincrement())
+    name   String       @unique
+    movies MovieGenre[]
 }
- 
- model MovieGenre {
+
+model MovieGenre {
     movieId Int
     genreId Int
-    movies  Movie @relation(fields: [movieId], references: [id])
-    genres  Genre  @relation(fields: [genreId], references: [id])
+    movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+    genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
 
     @@id([movieId, genreId])
 }
@@ -46,17 +46,16 @@ enum Role {
     CUSTOMER
     ADMIN
 }
- 
-model User {
-    id            String          @id @default(cuid())
-    name          String?
-    email         String          @unique
-    image         String?
-    password      String?
-    role          Role            @default(CUSTOMER)
-    createdAt     DateTime        @default(now())
-    updatedAt     DateTime        @updatedAt
-}
 
+model User {
+    id        String   @id @default(cuid())
+    name      String?
+    email     String   @unique
+    image     String?
+    password  String?
+    role      Role     @default(CUSTOMER)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
 
 // ############## END USERS  MODEL ##########################

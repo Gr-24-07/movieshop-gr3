@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { validateMovie } from "./validation-schema";
 import { revalidatePath } from "next/cache";
 
@@ -12,11 +12,12 @@ export default async function AddMovie(formData: FormData) {
   }
 
   const newmovie = result.data;
-  await prisma.movies.create({
+  await prisma.movie.create({
     data: {
       title: newmovie.title,
-      releaseYear: Number(newmovie.releaseYear),
-      posterPath: newmovie.posterPath,
+      overview: "",
+      release_date: Number(newmovie.releaseYear),
+      poster_path: newmovie.posterPath,
       //genre: newmovie.genre,
       price: Number(newmovie.price),
     },
