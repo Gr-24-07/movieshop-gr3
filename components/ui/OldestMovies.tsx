@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import Moviecard from "./moviecard";
+import Moviecard from "./Moviecard";
 
 
 
@@ -10,7 +10,7 @@ export default async function TopFiveOldestMovies() {
             release_date: 'asc',
         }, take: 5
     });
-    
+
     return (
 
         <div className="mt-10 p-10">

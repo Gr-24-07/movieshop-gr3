@@ -1,5 +1,5 @@
 import  prisma  from "@/lib/prisma";
-import Moviecard from "./moviecard";
+import Moviecard from "./Moviecard";
 
 
 
