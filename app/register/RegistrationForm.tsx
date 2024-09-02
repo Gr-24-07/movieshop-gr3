@@ -2,7 +2,7 @@
 'use client'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
@@ -11,7 +11,7 @@ import { useState } from "react"
 
 import { signIn } from "next-auth/react"
 import { registerUser } from "@/app/actions/register"
-import { ChromeIcon } from "./signin"
+import { ChromeIcon } from "../signin/signin"
 
 
 

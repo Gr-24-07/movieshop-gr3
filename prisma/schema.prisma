@@ -60,3 +60,22 @@ model User {
 
 
 // ############## END USERS  MODEL ##########################
+
+// ############## Cart  MODEL ##########################
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id       Int      @id @default(autoincrement())
+  cartId   Int
+  movieId  Int      
+  quantity Int      @default(1)
+  cart     Cart     @relation(fields: [cartId], references: [id])
+}
+
+// ############## END Cart  MODEL ########################

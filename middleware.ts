@@ -31,5 +31,5 @@ export default withAuth(
 );
 
 export const config = {
-    matcher: ['/dashboard/:path*'], // Apply middleware to dashboard routes
+    matcher: ['/admin/dashboard /:path*', '/customer/dashboard/:path*'], 
 };

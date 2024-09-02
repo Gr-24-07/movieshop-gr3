@@ -2,21 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background-color: rgb(50, 38, 83);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 .navbar {
-    display: flex;
-    justify-content: space-between;
     width: 100%;
-    padding: 1em;
     background-color: #322653;
     padding: 0 50px
 }
-
+.banner {
+    width: 100%;
+    height: 100%;
+    background-color: #9288F8 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0.5;
+}
+.banner-section Image {
+    width: 100%;
+    height: 100%;
+}
 .movie-card {
     width: 100%;
-    border: 1px solid #9288F8;
+    border: 0.05rem solid #5A639C;
     margin: 1rem;
     margin: auto;
     gap: 10px;
@@ -31,17 +43,28 @@ body {
 }
 
 .btn-signin {
-    background-color: #322653;
+    background-color: #E2BBE9;
     color: #ececec;
     height: 4rem;
 }
 
 .btn-signin:hover {
-    background-color: #42326d !important;
+    background-color: #9288F8 !important;
     color: #ececec;
     height: 4rem;
 }
 
 .google-btn {
     border-color: red;
+}
+
+.btn {
+    background-color: #322653;
+    color: #ececec;
+    z-index: 999;
+}
+.btn:hover {
+    background-color: #9288F8 !important;
+    color: #ececec;
+    transition: ease-in-out 0.1s;
 }

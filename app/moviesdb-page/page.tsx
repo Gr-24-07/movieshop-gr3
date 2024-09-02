@@ -7,18 +7,18 @@ import {
   TableCell,
   Table,
 } from "@/components/ui/table";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import DeleteButton from "../../components/ui/delete-button";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default async function MoviesDBPage() {
-  const movies = await prisma.movies.findMany({
+  const movies = await prisma.movie.findMany({
     include: {
       genres: {
         select: {
-          genre: true,
+          genres: true,
         },
       },
     },
@@ -52,9 +52,9 @@ export default async function MoviesDBPage() {
               {movies.map((movies) => (
                 <TableRow key={movies.id}>
                   <TableCell className="font-medium">{movies.title}</TableCell>
-                  <TableCell>{movies.releaseYear}</TableCell>
+                  <TableCell>{movies.release_date}</TableCell>
                   <TableCell>
-                    {movies.genres.map((x) => x.genre.name).join(",")}
+                    {movies.genres.map((genre) => genre.genres).join(",")}
                   </TableCell>
                   <TableCell className="text-right">{movies.price}</TableCell>
                   <TableCell className="text-right">
