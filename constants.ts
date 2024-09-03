@@ -1,12 +1,12 @@
-import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
+import { ResponseCookie, ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const CART_COOKIE = "__cart";
 
-export const CART_COOKIE_OPTIONS  = {
 
+
+export const CART_COOKIE_OPTIONS: Partial<ResponseCookie> = {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "lax",
     secure: process.env.NODE_ENV !== "production",
     maxAge: 60 * 60 * 24 * 30,
-
-} as Partial<ResponseCookies>
+}
