@@ -1,4 +1,4 @@
-'use client'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import classNames from 'classnames'
@@ -6,12 +6,15 @@ import { FaCartShopping } from "react-icons/fa6";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import { signOut, useSession } from 'next-auth/react';
 import { AiOutlineUser } from "react-icons/ai";
+import { getCart } from '@/app/actions/cart';
 
 
 export default function Navbar() {
-
     const { data: session } = useSession();
     const currentPage = usePathname();
+
+    const cart  = getCart();
+
     const links = [
         {lable: 'Movies', href: '/'},
         {lable: 'Actors', href: '/actors'},
@@ -61,7 +64,9 @@ export default function Navbar() {
                         
                     )}     
             
-                    <Link href='/' className="text-white mx-10"><FaCartShopping /></Link> 
+                    <Link href='/' className="text-white mx-10 flex items-center relative"><FaCartShopping className='text-3xl' />
+                        <span className='cart-count rounded-full'>{Object.entries(cart).reduce((acc, curr) => acc + (curr[1] as { quantity: number }).quantity, 0)}</span>
+                    </Link> 
                 </div>
             </div>
             

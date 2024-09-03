@@ -1,7 +1,7 @@
 // middleware.ts
 import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
-import { CART_COOKIE } from './constants';
+import { CART_COOKIE, CART_COOKIE_OPTIONS } from './constants';
 
 export default withAuth(
     function middleware(req) {
@@ -12,7 +12,7 @@ export default withAuth(
         // Check if cart cookie exists
         if (!cart) {
             // Create cart cookie
-             
+            response.cookies.set(CART_COOKIE, JSON.stringify({}), CART_COOKIE_OPTIONS );
         }
         // Check if the user is authenticated
         if (!token) {
