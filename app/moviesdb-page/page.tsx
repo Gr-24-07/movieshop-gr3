@@ -11,7 +11,7 @@ import prisma from "@/lib/prisma";
 import DeleteButton from "../../components/ui/delete-button";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export default async function MoviesDBPage() {
   const movies = await prisma.movie.findMany({
