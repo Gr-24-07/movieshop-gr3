@@ -14,7 +14,7 @@ export default withAuth(
             // Create cart cookie
             response.cookies.set(CART_COOKIE, JSON.stringify({}), CART_COOKIE_OPTIONS );
         }
-        // Check if the user is authenticated
+        // Check if there is no token
         if (!token) {
             return NextResponse.redirect(new URL('/signin', req.url));
         }
@@ -27,24 +27,11 @@ export default withAuth(
 
             return NextResponse.redirect(new URL('/admin/dashboard', req.url));
 
-        } else {    
-            // Redirect to signin if user is not authenticated
-            if (!token) {
-                return NextResponse.redirect(new URL('/signin', req.url));
-            }
-        }
-        
-        if (userRole === 'CUSTOMER') {
+        } else if (userRole === 'CUSTOMER') {
 
             return NextResponse.redirect(new URL('/customer/dashboard', req.url));
-          
-        } else {    
-            // Redirect to signin if user is not authenticated
-            if (!token) {
-                return NextResponse.redirect(new URL('/signin', req.url));
-            }
-        }
-
+        }    
+      
         return response;
     },
 
@@ -56,5 +43,5 @@ export default withAuth(
 );
 
 export const config = {
-    matcher: ['/admin/dashboard /:path*', '/customer/dashboard/:path*'], 
+    matcher: ['/admin/dashboard/:path*', '/customer/dashboard/:path*'], 
 };

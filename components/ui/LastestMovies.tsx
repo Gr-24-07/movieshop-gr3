@@ -19,7 +19,7 @@ export default async function TopFiveLastestMovies() {
                 <h1 className='text-xl font-bold '>Recent Movies</h1>
                 <p>Lastest movies ordered by release date</p>
             </div>
-
+            
             <div className='grid grid-cols-5 gap-4'>
             {
                 recentMovies.map((movie) => (

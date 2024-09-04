@@ -1,20 +1,16 @@
-import NextAuth, { NextAuthOptions, Session } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import Google from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import prisma from '@/lib/prisma'; // Your Prisma client setup
+import prisma from '@/lib/prisma'; 
 import { compare } from 'bcrypt';
-import { Role } from '@prisma/client';
-import { AdapterUser } from 'next-auth/adapters';
 
-interface CustomAdapterUser extends AdapterUser {
-    role: Role
-}
+
   
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
-        GoogleProvider({
+        Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET! 
         }),
@@ -32,8 +28,6 @@ export const authOptions: NextAuthOptions = {
                         email: email
                     }
                 });
-
-            
 
                 if( user && user.password && (await compare(password, user.password ))) {
                    
