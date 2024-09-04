@@ -1,4 +1,3 @@
-
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import classNames from 'classnames'
@@ -7,13 +6,13 @@ import { BiSolidCameraMovie } from "react-icons/bi";
 import { signOut, useSession } from 'next-auth/react';
 import { AiOutlineUser } from "react-icons/ai";
 import { getCart } from '@/app/actions/cart';
-
+import { CartProvider, useCart } from '@/context/cartContext';
 
 export default function Navbar() {
     const { data: session } = useSession();
     const currentPage = usePathname();
 
-    const cart  = getCart();
+    const { cartCount } = useCart();
 
     const links = [
         {lable: 'Movies', href: '/'},
@@ -41,6 +40,7 @@ export default function Navbar() {
                         ))
                     }
                 </ul>
+                
                 <div className='flex space-x-5 items-center'>
                     {session?.user?.role === 'ADMIN' && (
                         <div className='flex items-center text-slate-200'>
@@ -62,15 +62,15 @@ export default function Navbar() {
                             <Link className='flex items-center border border-slate-50 px-3 py-1 rounded text-center' href={'/register'}>Register</Link>
                         </div>
                         
-                    )}     
-            
-                    <Link href='/' className="text-white mx-10 flex items-center relative"><FaCartShopping className='text-3xl' />
-                        <span className='cart-count rounded-full'>{Object.entries(cart).reduce((acc, curr) => acc + (curr[1] as { quantity: number }).quantity, 0)}</span>
-                    </Link> 
+                    )}  
+
+                        <Link href='/cart' className="text-white mx-10 flex items-center relative"><FaCartShopping className='text-3xl' />
+                            <span className='cart-count rounded-full'>{cartCount}</span>
+                        </Link> 
+                     
                 </div>
             </div>
             
-           
         </nav>
     )
 }

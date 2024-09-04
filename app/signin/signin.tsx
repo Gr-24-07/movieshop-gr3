@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/Button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { signIn, getSession } from "next-auth/react"
-import { useEffect, useState } from "react"
+import { getSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
-
 
 
 

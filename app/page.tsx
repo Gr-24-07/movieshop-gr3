@@ -1,10 +1,10 @@
-
 import { Banner } from '@/components/ui/banner';
 import RecentMovies from '@/components/ui/LastestMovies';
 import TopFiveOldestMovies from '@/components/ui/OldestMovies';
 
 
 export  default function Home() {
+    
     return (
         <>
             <div>
