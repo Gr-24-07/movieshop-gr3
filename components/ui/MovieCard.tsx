@@ -3,7 +3,7 @@ import Link from "next/link"
 
 
 import Image from 'next/image';
-import { Button } from "./Button";
+import { Button } from "./button";
 
 export interface MovieProp {
     id: number;
