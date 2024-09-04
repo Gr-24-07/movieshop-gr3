@@ -14,28 +14,29 @@ datasource db {
 }
 
 model Movie {
-    id          Int @id @default(autoincrement())
-    title       String
-    overview    String
+    id           Int          @id @default(autoincrement())
+    title        String
+    overview     String
     release_date Int
     poster_path  String
-    genres      MovieGenre[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now())
-    price       Int
+    genres       MovieGenre[]
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @default(now())
+    price        Int
+    OrderItem    OrderItem[]
 }
 
 model Genre {
-    id      Int  @id @default(autoincrement())
-    name    String @unique
-    movies  MovieGenre[]
+    id     Int          @id @default(autoincrement())
+    name   String       @unique
+    movies MovieGenre[]
 }
- 
- model MovieGenre {
+
+model MovieGenre {
     movieId Int
     genreId Int
     movies  Movie @relation(fields: [movieId], references: [id])
-    genres  Genre  @relation(fields: [genreId], references: [id])
+    genres  Genre @relation(fields: [genreId], references: [id])
 
     @@id([movieId, genreId])
 }
@@ -46,36 +47,63 @@ enum Role {
     CUSTOMER
     ADMIN
 }
- 
-model User {
-    id            String          @id @default(cuid())
-    name          String?
-    email         String          @unique
-    image         String?
-    password      String?
-    role          Role            @default(CUSTOMER)
-    createdAt     DateTime        @default(now())
-    updatedAt     DateTime        @updatedAt
-}
 
+model User {
+    id        String   @id @default(cuid())
+    name      String?
+    email     String   @unique
+    image     String?
+    password  String?
+    role      Role     @default(CUSTOMER)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    orders    Order[]
+}
 
 // ############## END USERS  MODEL ##########################
 
 // ############## Cart  MODEL ##########################
 model Cart {
-  id        Int        @id @default(autoincrement())
-  userId    Int
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  items     CartItem[]
+    id        Int        @id @default(autoincrement())
+    userId    Int
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    items     CartItem[]
 }
 
 model CartItem {
-  id       Int      @id @default(autoincrement())
-  cartId   Int
-  movieId  Int      
-  quantity Int      @default(1)
-  cart     Cart     @relation(fields: [cartId], references: [id])
+    id       Int  @id @default(autoincrement())
+    cartId   Int
+    movieId  Int
+    quantity Int  @default(1)
+    cart     Cart @relation(fields: [cartId], references: [id])
 }
 
 // ############## END Cart  MODEL ########################
+
+model Order {
+    id          Int         @id @default(autoincrement())
+    userId      String
+    totalAmount Int
+    status      Status
+    orderDate   DateTime    @default(now())
+    user        User        @relation(fields: [userId], references: [id])
+    OrderItem   OrderItem[]
+}
+
+model OrderItem {
+    id              Int   @id @default(autoincrement())
+    orderId         Int
+    movieId         Int
+    quantity        Int
+    priceAtPurchase Int
+    order           Order @relation(fields: [orderId], references: [id])
+    movie           Movie @relation(fields: [movieId], references: [id])
+}
+
+enum Status {
+    PENDING
+    CANCELLED
+    SHIPPED
+    COMPLETED
+}
