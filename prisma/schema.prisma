@@ -20,6 +20,7 @@ model Movie {
     release_date Int
     poster_path  String
     genres       MovieGenre[]
+
     cartItems    CartItem[]
     createdAt    DateTime     @default(now())
     updatedAt    DateTime     @default(now())
@@ -66,6 +67,7 @@ model User {
 
 // ############## Cart  MODEL ##########################
 model Cart {
+
     id        Int     @id @default(autoincrement())
     userId    String     @unique
     items     CartItem[]
@@ -90,3 +92,48 @@ model CartItem {
 }
 
 // ############## END Cart  MODEL ########################
+
+    id        Int        @id @default(autoincrement())
+    userId    Int
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    items     CartItem[]
+}
+
+model CartItem {
+    id       Int  @id @default(autoincrement())
+    cartId   Int
+    movieId  Int
+    quantity Int  @default(1)
+    cart     Cart @relation(fields: [cartId], references: [id])
+}
+
+// ############## END Cart  MODEL ########################
+
+model Order {
+    id          Int         @id @default(autoincrement())
+    userId      String
+    totalAmount Int
+    status      Status
+    orderDate   DateTime    @default(now())
+    user        User        @relation(fields: [userId], references: [id])
+    OrderItem   OrderItem[]
+}
+
+model OrderItem {
+    id              Int   @id @default(autoincrement())
+    orderId         Int
+    movieId         Int
+    quantity        Int
+    priceAtPurchase Int
+    order           Order @relation(fields: [orderId], references: [id])
+    movie           Movie @relation(fields: [movieId], references: [id])
+}
+
+enum Status {
+    PENDING
+    CANCELLED
+    SHIPPED
+    COMPLETED
+}
+
