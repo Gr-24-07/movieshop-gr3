@@ -2,16 +2,18 @@
 import { CART_COOKIE, CART_COOKIE_OPTIONS } from "@/constants";
 import prisma from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
+import { CartItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export type CartItem = {
+export type Item = {
     id: number;
-    name: string;
+    name?: string;
     quantity: number;
     price: number;
+    poster_path: string;
 };
-export type Cart = Record<string, CartItem>;
+export type Cart = Record<string, Item>;
 
 // ####################### Get cart ############################
 export async function getCart() {
@@ -26,6 +28,7 @@ export async function getCart() {
                 name: item.movieId.toString(),
                 quantity: item.quantity,
                 price: item.price,
+                poster_path: item.poster_path,
             };
             return cart;
         }, {});
@@ -36,7 +39,7 @@ export async function getCart() {
 }
 
 // ####################### Add item to cart ############################
-export async function addToCart(item: CartItem) {
+export async function addToCart(item: Item) {
     const user = await getUserSession();
     if (user) {
         const cartId = parseInt(user.cartId);
@@ -45,6 +48,14 @@ export async function addToCart(item: CartItem) {
         const cartExists = await prisma.cart.findUnique({
             where: { id: cartId},
         });
+
+        if (!cartExists) {  
+            await prisma.cart.create({
+                data: {
+                    userId: user.id,
+                },
+            });
+        }
 
         const existingItem = await prisma.cartItem.findUnique({
             where: {
@@ -68,6 +79,7 @@ export async function addToCart(item: CartItem) {
                     cartId: cartId,
                     quantity: item.quantity,
                     price: item.price,
+                    poster_path: item.poster_path,
                 },
             });
         }
