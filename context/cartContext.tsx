@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCart, addToCart, removeFromCart, updateCart, clearCart } from '@/app/actions/cart';
-import { Cart, CartItem } from '@/app/actions/cart';
+import { Cart, Item } from '@/app/actions/cart';
 
 // Define the context type
 type CartContextType = {
   cart: Cart;
-  addItem: (item: CartItem) => void;
+  addItem: (item: Item) => void;
   removeItem: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
@@ -31,7 +31,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loadCart();
     }, []);
     // ############################ Add item to cart ############################   
-    const addItem = async (item: CartItem) => {
+    const addItem = async (item: Item) => {
         try {
             await addToCart(item);
             setCart(await getCart()); 

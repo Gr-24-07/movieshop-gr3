@@ -53,8 +53,8 @@ model User {
     image     String?
     password  String?
     role      Role       @default(CUSTOMER)
-    cart      Cart?      @relation(fields: [cartId], references: [id])
-    cartId    Int?
+    cart      Cart     @relation(fields: [cartId], references: [id])
+    cartId    Int
     cartItems CartItem[]
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
@@ -67,7 +67,7 @@ model User {
 // ############## Cart  MODEL ##########################
 model Cart {
 
-    id        Int     @id @default(autoincrement())
+    id        Int        @id @default(autoincrement())
     userId    String     @unique
     items     CartItem[]
     createdAt DateTime   @default(now())
@@ -77,15 +77,15 @@ model Cart {
 }
 
 model CartItem {
-    id        Int    @id @default(autoincrement())
+    id        Int         @id @default(autoincrement())
     movieId   Int
     cartId    Int
     quantity  Int
     price     Float
     poster_path String
-    cart      Cart   @relation(fields: [cartId], references: [id])
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    cart      Cart         @relation(fields: [cartId], references: [id])
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
     @@unique([movieId, cartId])
     User User[]
     Movie Movie[]

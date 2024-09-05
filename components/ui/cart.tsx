@@ -1,7 +1,11 @@
 
 "use client"
 
-import { Button } from "@/components/ui/Button"
+<<<<<<< HEAD
+import { Button } from "./button"
+=======
+import { Button } from "@/components/ui/button"
+>>>>>>> da402fcbb1b2370fbf2ecab6f71a60bdb3a2112a
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/context/cartContext"
