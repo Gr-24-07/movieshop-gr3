@@ -2,7 +2,6 @@
 import { CART_COOKIE, CART_COOKIE_OPTIONS } from "@/constants";
 import prisma from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
-import { CartItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -11,7 +10,7 @@ export type Item = {
     name?: string;
     quantity: number;
     price: number;
-    poster_path: string;
+    poster_path?: string;
 };
 export type Cart = Record<string, Item>;
 
@@ -28,7 +27,7 @@ export async function getCart() {
                 name: item.movieId.toString(),
                 quantity: item.quantity,
                 price: item.price,
-                poster_path: item.poster_path,
+                poster_path: item.poster_path ?? "",
             };
             return cart;
         }, {});
@@ -42,15 +41,12 @@ export async function getCart() {
 export async function addToCart(item: Item) {
     const user = await getUserSession();
     if (user) {
-        const cartId = parseInt(user.cartId);
-        console.log(cartId);
-
-        const cartExists = await prisma.cart.findUnique({
-            where: { id: cartId},
+        let cart = await prisma.cart.findUnique({
+            where: { userId: user.id },
         });
 
-        if (!cartExists) {  
-            await prisma.cart.create({
+        if (!cart) {  
+            cart = await prisma.cart.create({
                 data: {
                     userId: user.id,
                 },
@@ -61,25 +57,25 @@ export async function addToCart(item: Item) {
             where: {
                 movieId_cartId: {
                     movieId: item.id,
-                    cartId: cartId,
-
+                    cartId: cart.id,
                 },
             },
         });
-
+        console.log("Poster Path:", item.poster_path);
         if (existingItem) {
             await prisma.cartItem.update({
                 where: { id: existingItem.id },
                 data: { quantity: existingItem.quantity + item.quantity },
             });
+            
         } else {
             await prisma.cartItem.create({
                 data: {
                     movieId: item.id,
-                    cartId: cartId,
+                    cartId: cart.id,
                     quantity: item.quantity,
                     price: item.price,
-                    poster_path: item.poster_path,
+                    poster_path: item.poster_path
                 },
             });
         }
@@ -87,12 +83,20 @@ export async function addToCart(item: Item) {
         // Handle non-logged-in users as before
         const cart = getCookie();
 
-        if (cart[item.id]) {
-            cart[item.id].quantity += item.quantity;
-        } else {
-            cart[item.id] = item;
-        }
-        setCookie(cart);
+    if (cart[item.id]) {
+        cart[item.id].quantity += item.quantity;
+    } else {
+        // Ensure that all required fields, including poster_path, are set
+        cart[item.id] = {
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            poster_path: item.poster_path ?? "",
+        };
+    }
+
+    setCookie(cart);
     }
 
     revalidatePath("/", "layout");
@@ -108,7 +112,7 @@ export async function updateCart(itemId: string, quantity: number) {
             where: {
                 movieId_cartId: {
                     movieId: parseInt(itemId),
-                    cartId: parseInt(user.cartId)!,
+                    cartId: user.cartId!,
                 },
             },
         });
@@ -154,7 +158,7 @@ export async function removeFromCart(itemId: string) {
             await prisma.cartItem.deleteMany({
                 where: {
                     movieId: parsedItemId,
-                    cartId: parseInt(user.cartId)!,
+                    cartId: user.cartId!,
                 },
             });
         } else {
@@ -180,7 +184,7 @@ export async function clearCart() {
     if (user) {
         // Database operations for logged-in users
         await prisma.cartItem.deleteMany({
-            where: { cartId: parseInt(user.cartId!) },
+            where: { cartId: user.cartId! },
         });
     } else {
         // Cookie operations for non-logged-in users

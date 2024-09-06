@@ -28,9 +28,10 @@ export default function Moviecard({movie}: Prop) {
             movieId: movie.id,
             name: movie.title,
             quantity: 1,
-            price: movie.price
+            price: movie.price,
+            poster_path: movie.poster_path
         }
-        addItem(item)
+        addItem(item);
     }
 
     return (
