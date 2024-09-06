@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google"
 import Navbar from "@/components/ui/Navbar";
 import { SessionProvider } from 'next-auth/react';
-
+import { CartProvider } from '@/context/cartContext';
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -24,20 +24,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
     return (
-        <SessionProvider>
-            <html lang="en">
-                <body className={cn(
-                    "min-h-screen bg-background font-sans antialiased",
-                    fontSans.variable
-                )}
-                >
-                    <header>
-                        <Navbar />
-                    </header>
-                    <main>{children} </main>
-                </body>
+        <CartProvider>
+            <SessionProvider>
+                <html lang="en">
+                    <body className={cn(
+                        "min-h-screen bg-background font-sans antialiased",
+                        fontSans.variable
+                    )}
+                    >
+                        <header>
+                            <Navbar />
+                        </header>
+                        <main>{children} </main>
+                    </body>
 
-                </html>
-        </SessionProvider>
+                    </html>
+            </SessionProvider>
+        </CartProvider>
     );
 }

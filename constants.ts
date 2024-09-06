@@ -1,8 +1,6 @@
-import { ResponseCookie, ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const CART_COOKIE = "__cart";
-
-
 
 export const CART_COOKIE_OPTIONS: Partial<ResponseCookie> = {
     httpOnly: true,
