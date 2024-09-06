@@ -3,9 +3,9 @@ import { Button } from "./button"
 
 export function Banner() {
 	return (
-		<section className="banner-section relative w-full h-[68vh] bg-black">
+		<section className="banner-section relative w-full h-[100vh] bg-black">
 			<div className="banner"/>
-				<Image src="/movie-poster-banner.jpg" alt="Movie Banner" className="absolute inset-0 object-cover w-full h-[68vh]" 
+				<Image src="/movie-poster-banner.jpg" alt="Movie Banner" className="absolute inset-0 object-cover w-full h-[100vh]" 
 					width={1920} height={1080} priority/>
 			<div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
 				<h1 className="text-5xl font-bold">The Dark Knight Trilogy</h1>

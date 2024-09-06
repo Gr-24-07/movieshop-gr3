@@ -31,6 +31,7 @@ export default function Moviecard({ movie }: Prop) {
     addItem(item);
   };
 
+
   return (
     <div
       className="grid grid-cols-1 border border-black-100 rounded-xl movie-card"

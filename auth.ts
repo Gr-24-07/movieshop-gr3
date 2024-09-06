@@ -3,10 +3,10 @@ import google from "next-auth/providers/google"
 
 
 
-export const {handlers, signIn, signOut, auth} = NextAuth({
+export const {authOptions} = NextAuth({
     session : {
         strategy: "jwt",
     },
-    providers: [google({clientId: process.env.GOOGLE_CLIENT_ID!, clientSecret: process.env.GOOGLE_CLIENT_SECRET!})],
+    providers: [google],
 })
 

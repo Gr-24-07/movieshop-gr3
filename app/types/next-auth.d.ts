@@ -6,7 +6,7 @@ import 'next-auth/jwt';
 declare module 'next-auth' {
     interface Session {
         user: {
-            cartId: string;
+            cartId: number;
             id: string;
             name?: string | null;
             email?: string | null;
