@@ -18,35 +18,67 @@ import {
 import React, { useEffect } from "react";
 import { Menu } from "lucide-react";
 
-export default function Navbar() {
-  const [open, setOpen] = React.useState(false);
-  const { data: session } = useSession();
-  const currentPage = usePathname();
 
-  const { cartCount } = useCart();
+    const cart = getCart();
 
-  useEffect(() => {
-    setOpen(false);
-  }, [currentPage]);
+    const links = [
+        { lable: 'Movies', href: '/' },
+        { lable: 'Actors', href: '/actors' },
+        { lable: 'contact', href: '/contact' },
+    ]
 
-  const links = [
-    { lable: "Movies", href: "/" },
-    { lable: "Actors", href: "/actors" },
-    { lable: "Contact", href: "/contact" },
-    { lable: "MoviesDB", href: "/moviesdb-page" },
-  ];
 
-  return (
-    <div>
-      <nav className="navbar hidden lg:block">
-        <div className="container mx-auto flex justify-between space-x-10 items-center h-20 text-xl">
-          <Link href="/" className="text-white mx-10c">
-            <span className="flex items-center">
-              <BiSolidCameraMovie className="text-5xl" />
-              Movie<strong>Vault</strong>
-            </span>
-          </Link>
+    return (
+        <nav className="navbar">
+            <div className='container mx-auto flex justify-between space-x-10 items-center h-20 text-xl'>
+                <Link href='/' className="text-white mx-10c"><span className='flex items-center'><BiSolidCameraMovie className='text-5xl' />Movie<strong>Vault</strong></span></Link>
 
+                <ul className="flex space-x-10">
+                    {
+                        links.map(link => (
+                            <Link key={link.lable} href={link.href}
+                                className={classNames({
+                                    'hover:text-sky-300 transition-colors': true,
+                                    'text-sky-300': link.href === currentPage,
+                                    'text-white': link.href !== currentPage
+                                })}>{link.lable}
+                            </Link>
+                        ))
+                    }
+                </ul>
+                <div className='flex space-x-5 items-center'>
+                    {session?.user?.role === 'ADMIN' && (
+                        <div className='flex items-center text-slate-200'>
+                            <Link className='hover:text-sky-300 transition-colors text-white rounded text-center' href='/admin/dashboard/'> <AiOutlineUser className='text-3xl' /></Link>
+
+                        </div>
+                    )}
+
+                    {session?.user?.role === 'CUSTOMER' && (
+                        <Link className='flex items-center text-white px-3 py-1 rounded text-center' href="/customer/dashboard/"><AiOutlineUser className='text-3xl' /></Link>
+
+                    )}
+
+                    {session ? (
+                        <Link className='hover:text-sky-300 transition-colors text-white px-3 py-1 rounded text-center' href={'/'} onClick={() => signOut()}>Sign out</Link>
+                    ) : (
+                        <div className='flex space-x-5 items-center text-slate-200'>
+                            <Link className='flex items-center border border-slate-50 px-3 py-1 rounded text-center' href={'/signin'}>Sign in</Link>
+                            <Link className='flex items-center border border-slate-50 px-3 py-1 rounded text-center' href={'/register'}>Register</Link>
+                        </div>
+
+                    )}
+
+                    <Link href='/' className="text-white mx-10 flex items-center relative"><FaCartShopping className='text-3xl' />
+                        <span className='cart-count rounded-full'>{Object.entries(cart).reduce((acc, curr) => acc + (curr[1] as { quantity: number }).quantity, 0)}</span>
+                    </Link>
+                </div>
+            </div>
+
+
+        </nav>
+    )
+=======
           <ul className="flex space-x-10">
             {links.map((link) => (
               <Link

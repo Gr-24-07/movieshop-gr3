@@ -1,3 +1,4 @@
+
 import HomeCarousel from "@/components/home-carousel";
 import { Banner } from "@/components/ui/banner";
 import RecentMovies from "@/components/ui/LastestMovies";
@@ -89,3 +90,4 @@ export default async function Home() {
 // };
 
 // export default Page;
+

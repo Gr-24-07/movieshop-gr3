@@ -99,7 +99,7 @@ model Order {
     status      Status
     orderDate   DateTime    @default(now())
     user        User        @relation(fields: [userId], references: [id])
-    OrderItem   OrderItem[]
+    orderItems  OrderItem[]
 }
 
 model OrderItem {
