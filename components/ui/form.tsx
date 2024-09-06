@@ -1,9 +1,12 @@
 "use client";
+
+
 import { useState } from "react";
 import AddButton from "./add-button";
 import { FailureResult } from "../../app/actions/validation-schema";
 import { useRouter } from "next/navigation";
 import AddMovie from "../../app/actions/add";
+
 
 export default function FormComponent() {
   const [errors, setErrors] = useState<FailureResult["errors"]>();
@@ -18,12 +21,14 @@ export default function FormComponent() {
     console.log(errors);
   }
   return (
+    
     <form
       className="flex flex-col space-y-4 max-w-md w-full mx-auto bg-slate-200 rounded-lg p-4"
       action={action}
     >
       {/* <label htmlFor="Title"></label> */}
       <input
+      
         className="border border-black rounded mx-3 p-2 text-sm"
         type="text"
         name="title"
