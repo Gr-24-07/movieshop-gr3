@@ -38,21 +38,21 @@ export default async function Home() {
         <Banner />
       </div>
       <main className="container mx-auto min-h-screen">
-        <div className="px-14 mt-8 mb-8 space-y-3">
+        <div className="sm:px-14 mt-8 mb-8 space-y-3">
           <h2 className="text-xl font-bold">Top 5 most purchased Movies</h2>
           <HomeCarousel carouselMovies={topMovies} />
         </div>
-        <div className="px-14 mt-8 mb-8 space-y-3">
+        <div className="sm:px-14 mt-8 mb-8 space-y-3">
           <h2 className="text-xl font-bold">Top 5 cheapest Movies</h2>
           <HomeCarousel carouselMovies={cheapestMovies} />
         </div>
 
-        <div className="px-14 mt-8 mb-8 space-y-3">
+        <div className="sm:px-14 mt-8 mb-8 space-y-3">
           <h2 className="text-xl font-bold">Top 5 Latest Movies</h2>
           <HomeCarousel carouselMovies={recentMovies} />
         </div>
 
-        <div className="px-14 mt-8 mb-8 space-y-3">
+        <div className="sm:px-14 mt-8 mb-8 space-y-3">
           <h2 className="text-xl font-bold">Top 5 Oldest Movies</h2>
           <HomeCarousel carouselMovies={oldestMovies} />
         </div>
