@@ -11,7 +11,8 @@ import { useState } from "react"
 
 import { signIn } from "next-auth/react"
 import { registerUser } from "@/app/actions/register"
-import { ChromeIcon } from "../signin/signin"
+import { ChromeIcon } from "../signin/SigninPage"
+
 
 
 

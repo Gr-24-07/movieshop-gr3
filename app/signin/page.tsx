@@ -1,5 +1,6 @@
-import SignInPage from '@/app/signin/signin'
+
 import React from 'react'
+import SignInPage from './SigninPage'
 
 
 export default function SigninPage() {

@@ -1,11 +1,11 @@
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Movie {
@@ -15,12 +15,10 @@ model Movie {
     release_date Int
     poster_path  String
     genres       MovieGenre[]
-
     cartItems    CartItem[]
     createdAt    DateTime     @default(now())
     updatedAt    DateTime     @default(now())
     price        Int
-
     OrderItem OrderItem[]
 }
 
@@ -33,8 +31,8 @@ model Genre {
 model MovieGenre {
     movieId Int
     genreId Int
-    movies  Movie @relation(fields: [movieId], references: [id])
-    genres  Genre @relation(fields: [genreId], references: [id])
+    movie  Movie @relation(fields: [movieId], references: [id])
+    genre  Genre @relation(fields: [genreId], references: [id])
 
     @@id([movieId, genreId])
 }
@@ -76,6 +74,7 @@ model Cart {
 
 model CartItem {
     id        Int         @id @default(autoincrement())
+    name      String?
     movieId   Int
     quantity  Int
     movie     Movie       @relation(fields: [movieId], references: [id])
@@ -83,6 +82,7 @@ model CartItem {
     cartId    Int
     cart      Cart        @relation(fields: [cartId], references: [id])
     poster_path String?   
+
     createdAt DateTime    @default(now())
     updatedAt DateTime    @updatedAt
 
