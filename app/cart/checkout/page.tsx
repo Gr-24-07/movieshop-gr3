@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckOut } from '../../../components/ui/check-out'
+import { CheckOutPage } from '@/components/ui/check-out-page'
 
 export default function CheckoutPage() {
 
@@ -9,7 +9,7 @@ export default function CheckoutPage() {
             <p className='text-center mt-5'>Thank you for your order!</p>
 
             <div>
-                <CheckOut />
+                <CheckOutPage />
             </div>
 
         </div>
