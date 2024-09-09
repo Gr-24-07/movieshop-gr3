@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/context/cartContext";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Cart() {
   const { cart, clearCart, removeItem, updateQuantity } = useCart();
@@ -31,41 +32,32 @@ export function Cart() {
                     <div className="grid gap-6">
                         {Object.values(cart).map((item) => (
                             <div key={item.id} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
-                                {item.poster_path ? (
-                                    <Image
-                                            src={item.poster_path}
-                                            alt={item.name}
-                                            width={100}
-                                            height={100}
-                                            className="rounded-lg object-cover"
-                                        />
-                                    ) : (
-                                        <div className="w-24 h-24 bg-gray-200 flex items-center justify-center">
-                                            <span>No Image</span>
-                                        </div>
-                                    )}
-                                    <div className="grid gap-1">
-                                        <div className="flex items-center gap-2">
-                                            <Button
-                                                size="sm" variant="outline" onClick={() =>
-                                                    updateQuantity(
-                                                        item.id.toString(),
-                                                        Math.max(item.quantity - 1, 1)
-                                                    )
-                                                }
-                                            >
-                                                -
-                                            </Button>
-                                            <span>{item.quantity}</span>
-                                            <Button size="sm" variant="outline" onClick={() =>
-                                                    updateQuantity(item.id.toString(), item.quantity + 1)
-                                                }
-                                            >
-                                                +
-                                            </Button>
-                                            <h3 className="font-semibold">{item.name}</h3>
-                                        </div>
-                                    </div>
+                            <Image
+                                src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={"title"} width={500}height={500}
+                                className="rounded-lg object-cover h-34 w-34"
+                            />
+                            <div className="grid gap-1">
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        size="sm" variant="outline" onClick={() =>
+                                            updateQuantity(
+                                                item.id.toString(),
+                                                Math.max(item.quantity - 1, 1)
+                                            )
+                                        }
+                                    >
+                                        -
+                                    </Button>
+                                    <span>{item.quantity}</span>
+                                    <Button size="sm" variant="outline" onClick={() =>
+                                            updateQuantity(item.id.toString(), item.quantity + 1)
+                                        }
+                                    >
+                                        +
+                                    </Button>
+                                    <h3 className="font-semibold">{item.name}</h3>
+                                </div>
+                            </div>
                             <div className="text-right">
                                 <span className="font-semibold">
                                     {item.quantity * item.price} kr
@@ -101,7 +93,7 @@ export function Cart() {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button className="w-full">Proceed to Checkout</Button>
+                            <Link href="/cart/checkout"><Button  className="w-full">Proceed to Checkout</Button></Link>
                         </CardFooter>
                     </Card>
                 </div>

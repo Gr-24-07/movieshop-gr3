@@ -1,9 +1,7 @@
 
 import HomeCarousel from "@/components/home-carousel";
 import { Banner } from "@/components/ui/banner";
-import RecentMovies from "@/components/ui/LastestMovies";
-import TopFiveOldestMovies from "@/components/ui/OldestMovies";
-import prisma from "@/lib/prisma";
+import  prisma  from "@/lib/prisma";
 
 export default async function Home() {
   const topMoviesPromise = prisma.movie.findMany({

@@ -27,7 +27,7 @@ export default function Navbar() {
     const links = [
         { lable: 'Movies', href: '/' },
         { lable: 'Actors', href: '/actors' },
-        { lable: 'contact', href: '/contact' },
+        { lable: 'Contact', href: '/contact' },
     ]
 
     const [open, setOpen] = React.useState(false);
