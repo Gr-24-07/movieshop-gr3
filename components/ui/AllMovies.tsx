@@ -1,5 +1,5 @@
-import  prisma  from "@/lib/prisma";
-import Moviecard from "./Moviecard";
+import prisma from "@/lib/prisma";
+import Moviecard from "./MovieCard";
 
 
 
@@ -12,7 +12,7 @@ export default async function AllMovies() {
             {
                 movies.map((movie) => (
                     <Moviecard key={movie.id}
-                    movie={movie} />
+                        movie={movie} />
                 ))
             }
         </div>

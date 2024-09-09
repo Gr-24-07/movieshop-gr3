@@ -18,7 +18,7 @@ export default async function MoviesDBPage() {
     include: {
       genres: {
         select: {
-          genres: true,
+          genre: true,
         },
       },
     },
@@ -54,7 +54,7 @@ export default async function MoviesDBPage() {
                   <TableCell className="font-medium">{movies.title}</TableCell>
                   <TableCell>{movies.release_date}</TableCell>
                   <TableCell>
-                    {movies.genres.map((genre) => genre.genres).join(",")}
+                    {movies.genres.map((genre) => genre.genre.name).join(",")}
                   </TableCell>
                   <TableCell className="text-right">{movies.price}</TableCell>
                   <TableCell className="text-right">

@@ -18,13 +18,13 @@ export default async function TopFiveOldestMovies() {
                 <h1 className='text-2xl font-bold '>Oldest Movies</h1>
                 <p>Oldest, classic movies ordered by release date</p>
             </div>
-            
+
             <div className='grid grid-cols-5 gap-4'>
-            {
-                oldestMovies.map((movie) => (
-                    <Moviecard key={movie.id} movie={movie} />
-                ))
-            }
+                {
+                    oldestMovies.map((movie) => (
+                        <Moviecard key={movie.id} movie={movie} />
+                    ))
+                }
             </div>
         </div>
     )

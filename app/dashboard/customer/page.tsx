@@ -1,17 +1,15 @@
 // /app/customer/dashboard/page.tsx
 
 
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
 
 
 export default async function CustomerDashboard() {
-     const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session || session.user?.role !== 'CUSTOMER') {
         redirect('/auth/signin');
-        return null;
     }
 
     return (
