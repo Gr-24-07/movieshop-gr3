@@ -34,7 +34,7 @@ export default function Moviecard({ movie }: Prop) {
 
   return (
     <div
-      className="grid grid-cols-1 border border-black-100 rounded-xl movie-card"
+      className="grid grid-cols-1 border border-black-100 rounded-xl movie-card shadow-lg hover:shadow-2xl "
       key={movie.id}
     >
       <div className="w-full">
@@ -50,7 +50,7 @@ export default function Moviecard({ movie }: Prop) {
           </Link>
         </div>
         <div className="p-4 bg-background">
-          <h3 className="text-lg font-semibold md:text-xl">{movie.title}</h3>
+          <h3 className="text-xl border">{movie.title}</h3>
           <p className="text-sm text-muted-foreground text-slate-500">
             {movie.release_date}
           </p>
