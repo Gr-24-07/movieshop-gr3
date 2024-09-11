@@ -1,0 +1,64 @@
+// app/actions/checkoutAction.ts
+import { cookies } from 'next/headers';
+import { PrismaClient, Status } from '@prisma/client';
+import { redirect } from 'next/navigation';
+
+const prisma = new PrismaClient();
+
+// Server Action for processing checkout, including user information for guest users
+export async function checkoutAction(
+  userInfo: { fullname: string; email: string; address: string; phone: string; city: string; zipCode: string; country: string }
+) {
+  // Retrieve cart from cookies for non-logged-in users
+  const cartCookie = cookies().get('CART_COOKIE');
+  if (!cartCookie) {
+    throw new Error('Cart is empty');
+  }
+
+  let cartItems;
+  try {
+    cartItems = JSON.parse(cartCookie.value);
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+      throw new Error('Cart is empty');
+    }
+  } catch (error) {
+    throw new Error('Invalid cart data');
+  }
+
+  // Calculate the total amount
+  const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  // Simulate payment success
+  const paymentSuccess = true;  // Simulate a successful payment for demonstration purposes
+
+  if (!paymentSuccess) {
+    throw new Error('Payment failed');
+  }
+
+  // Create the order for guest users (without user ID)
+  await prisma.order.create({
+    data: {
+      totalAmount,
+      status: Status.PENDING,
+      orderItems: {
+        create: cartItems.map((item) => ({
+          movieId: item.id,
+          quantity: item.quantity,
+          priceAtPurchase: item.price,
+        })),
+      },
+      name: userInfo.fullname,
+      email: userInfo.email,
+      address: userInfo.address,
+      city: userInfo.city,
+      zipCode: userInfo.zipCode,
+      country: userInfo.country,
+      phone: userInfo.phone,
+    },
+  });
+
+  // Clear the cart from cookies
+  cookies().delete('CART_COOKIE');
+
+  redirect('/confirmation');  // Redirect to the order confirmation page
+}

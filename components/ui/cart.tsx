@@ -14,7 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Item } from "@/app/actions/cart";
 
-export function Cart(Item: Item) {
+export function Cart() {
   const { cart, clearCart, removeItem, updateQuantity } = useCart();
 
   return (
@@ -34,7 +34,7 @@ export function Cart(Item: Item) {
                         {Object.values(cart).map((item) => (
                             <div key={item.id} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
                             <Image
-                                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} alt="movie image" width={64} height={64}
+                                src={item.poster_path} alt="movie image" width={64} height={64}
                                 className="rounded-lg object-cover h-34 w-34"
                             />
                             <div className="grid gap-1">

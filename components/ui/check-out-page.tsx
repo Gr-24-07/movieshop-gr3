@@ -50,7 +50,7 @@ export function CheckOutPage() {
                             cartItems.map((item: any) => (
                                 <div className="flex items-center gap-4">
                                     <Image
-                                        src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                                        src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}
                                         alt="movie image" width={64} height={64} className="rounded-md"
                                     />
                                     <div>

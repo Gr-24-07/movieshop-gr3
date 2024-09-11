@@ -3,16 +3,22 @@
 import { auth } from "@/auth";
 import { CART_COOKIE, CART_COOKIE_OPTIONS } from "@/constants";
 import prisma from "@/lib/prisma";
+import { Movie } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
+interface MovieProp extends Movie {
+  poster_path: string;
+  title: string;
+}
+
 export type Item = {
-    title: string;
-    id: number;
-    quantity: number;
-    price: number;
-    poster_path: string;
-    movieId: number;
+  title: MovieProp["title"];
+  id: number;
+  quantity: number;
+  price: number;
+  poster_path: MovieProp["poster_path"];
+  movieId: number;
 };
 
 export type Cart = Record<string, Item>;
@@ -54,11 +60,11 @@ export async function getCart() {
         return cartItems.reduce((cart: Cart, item) => {
             cart[item.movieId] = {
                 id: item.movieId,
-                title: item.title,
+                title: item.title || "", // to fix
                 quantity: item.quantity,
                 price: item.price,
                 movieId: item.movieId,
-                poster_path: item.poster_path,
+                poster_path: item.poster_path || "" // to fix
             };
         return cart;
         }, {});
