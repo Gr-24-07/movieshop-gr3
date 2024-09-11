@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const validationSchema = z.object({
   title: z.string().min(5, "Title is required"),
+  overview: z.string().min(5, "Overview is required"),
   releaseYear: z.coerce.number().min(4, "Release year is required"),
   posterPath: z.string().min(5, "Poster path is required"),
   genre: z.string().min(5, "Genre is required"),

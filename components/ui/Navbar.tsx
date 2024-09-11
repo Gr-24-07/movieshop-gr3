@@ -53,13 +53,13 @@ export default function Navbar() {
                 <div className='flex space-x-5 items-center'>
                     {session?.user?.role === 'ADMIN' && (
                         <div className='flex items-center text-slate-200'>
-                            <Link className='hover:text-sky-300 transition-colors text-white rounded text-center' href='/admin/dashboard/'> <AiOutlineUser className='text-3xl' /></Link>
+                            <Link className='hover:text-sky-300 transition-colors text-white rounded text-center' href='/dashboard/admin'> <AiOutlineUser className='text-3xl' /></Link>
 
                         </div>
                     )}
 
                     {session?.user?.role === 'CUSTOMER' && (
-                        <Link className='flex items-center text-white px-3 py-1 rounded text-center' href="/customer/dashboard/"><AiOutlineUser className='text-3xl' /></Link>
+                        <Link className='flex items-center text-white px-3 py-1 rounded text-center' href="dashboard/customer"><AiOutlineUser className='text-3xl' /></Link>
 
                     )}
 

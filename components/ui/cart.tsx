@@ -12,8 +12,9 @@ import { useCart } from "@/context/cartContext";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { Item } from "@/app/actions/cart";
 
-export function Cart() {
+export function Cart(Item: Item) {
   const { cart, clearCart, removeItem, updateQuantity } = useCart();
 
   return (
@@ -33,7 +34,7 @@ export function Cart() {
                         {Object.values(cart).map((item) => (
                             <div key={item.id} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
                             <Image
-                                src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={"title"} width={500}height={500}
+                                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} alt="movie image" width={64} height={64}
                                 className="rounded-lg object-cover h-34 w-34"
                             />
                             <div className="grid gap-1">
@@ -55,7 +56,7 @@ export function Cart() {
                                     >
                                         +
                                     </Button>
-                                    <h3 className="font-semibold">{item.name}</h3>
+                                    <h3 className="font-semibold">{item.title}</h3>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -79,7 +80,7 @@ export function Cart() {
                             <div className="grid gap-2">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
-                                <span>1000</span>
+                                <span></span>
                             </div>
                             <div className="flex justify-between">
                                 <span>Shipping</span>
@@ -88,12 +89,12 @@ export function Cart() {
                             <Separator />
                             <div className="flex justify-between font-semibold">
                                 <span>Total</span>
-                                <span>1000</span>
+                                <span></span>
                             </div>
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Link href="/cart/checkout"><Button  className="w-full">Proceed to Checkout</Button></Link>
+                            <Link href="/cart/checkout" className="w-full"><Button  className="w-full">Proceed to Checkout</Button></Link>
                         </CardFooter>
                     </Card>
                 </div>

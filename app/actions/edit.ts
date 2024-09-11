@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { validateMovie } from "./validation-schema";
-import prisma from "@/lib/prisma";
+import  prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Movie } from "@prisma/client";
 
@@ -22,7 +22,6 @@ export async function EditMovie(id: number, formData: FormData) {
       title: editmovie.title,
       release_date: Number(editmovie.releaseYear),
       poster_path: editmovie.posterPath,
-      overview: "",
       // genre: editmovie.genre,
       price: Number(editmovie.price),
     },

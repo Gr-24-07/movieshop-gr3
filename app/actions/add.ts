@@ -17,9 +17,9 @@ export default async function AddMovie(formData: FormData) {
       title: newmovie.title,
       release_date: Number(newmovie.releaseYear),
       poster_path: newmovie.posterPath,
-      overview: "",
       //genre: newmovie.genre,
       price: Number(newmovie.price),
+      overview: newmovie.overview,
     },
   });
 

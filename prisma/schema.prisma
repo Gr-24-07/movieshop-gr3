@@ -56,7 +56,7 @@ model User {
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
 
-    Order Order[]
+    Orders Order[]
 }
 
 // ############## END USERS  MODEL ##########################
@@ -65,8 +65,8 @@ model User {
 model Cart {
 
     id        Int        @id @default(autoincrement())
-    userId    String     @unique
-    user      User       @relation(fields: [userId], references: [id])
+    userId    String?     @unique
+    user      User?       @relation(fields: [userId], references: [id])
     items     CartItem[]
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
@@ -74,14 +74,14 @@ model Cart {
 
 model CartItem {
     id        Int         @id @default(autoincrement())
-    name      String?
+    title     String
     movieId   Int
     quantity  Int
     movie     Movie       @relation(fields: [movieId], references: [id])
     price     Int
     cartId    Int
     cart      Cart        @relation(fields: [cartId], references: [id])
-    poster_path String?   
+    poster_path String  
 
     createdAt DateTime    @default(now())
     updatedAt DateTime    @updatedAt
@@ -94,12 +94,20 @@ model CartItem {
 
 model Order {
     id          Int         @id @default(autoincrement())
-    userId      String
+    userId      String?
     totalAmount Int
     status      Status
     orderDate   DateTime    @default(now())
-    user        User        @relation(fields: [userId], references: [id])
+    user        User?        @relation(fields: [userId], references: [id])
     orderItems  OrderItem[]
+
+    fullName     String
+    email        String
+    phoneNumber  String 
+    address      String
+    city         String
+    zipCode      String
+    country      String
 }
 
 model OrderItem {
