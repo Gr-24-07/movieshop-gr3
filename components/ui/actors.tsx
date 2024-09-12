@@ -6,7 +6,7 @@ export async function Actors() {
     return (
         <div className="container mx-auto px-4 py-12">
             <h1 className="text-3xl font-bold mb-8 text-center">All Actors</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
 
                 {actors.map((actor) => (
                     <div className="bg-background rounded-lg overflow-hidden shadow-md">

@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { useCart } from "@/context/cartContext";
+import Link from "next/link";
 
 export type HomeCarouselProps = {
   carouselMovies?: Movie[];
@@ -50,9 +51,10 @@ function MovieCard({ movie }: { movie: Movie }) {
     const item = {
       id: movie.id,
       movieId: movie.id,
-      name: movie.title,
+      title: movie.title,
       quantity: 1,
       price: movie.price,
+      poster_path: movie.poster_path,
     };
     addItem(item);
   };
@@ -60,13 +62,16 @@ function MovieCard({ movie }: { movie: Movie }) {
   return (
     <Card>
       <div>
-        <Image
-          src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-          width={300}
-          height={300}
-          alt={movie.title}
-          className="rounded-t-lg"
-        />
+        <Link key={movie.id} href={`/movies/${movie.id}`}>
+          <Image
+            src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+            width={300}
+            height={300}
+            alt={movie.title}
+            className="rounded-t-lg"
+          />
+        </Link>
+        
       </div>
       <CardContent className="pt-4 space-y-1.5">
         <h2 className="font-bold">{movie.title}</h2>

@@ -8,7 +8,7 @@ export default async function AllMovies() {
 
     const movies = await prisma.movie.findMany();
     return (
-        <div className='movie-cards mt-10'>
+        <div className='movie-cards grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8'>
             {
                 movies.map((movie) => (
                     <Moviecard key={movie.id}
