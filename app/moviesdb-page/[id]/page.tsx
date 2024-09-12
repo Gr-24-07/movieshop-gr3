@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function MoviePage({
@@ -22,9 +24,6 @@ export default async function MoviePage({
     return notFound();
   }
 
-  //const action = updateMovie.bind(null, movie.id);
-  const isAdmin = true;
-
   return (
     <div className="flex w-full">
       <div className="p-4 max-6xl mx-auto">
@@ -36,14 +35,35 @@ export default async function MoviePage({
           alt={""}
         />
       </div>
-      <div className="container mx-auto p-4 flex">
-        <aside className="w-1/3">
-          <h2 className="text-2xl ">{movie.title}</h2>
-          <p>{movie.genres.map((x) => x.genre.name).join(",")}</p>
-          <p>{movie.release_date}</p>
-          <p>{movie.price}</p>
-          <p>DUMMY OVERVIEW</p>
-          {isAdmin && <p>Is Admin</p>}
+      <div className="container mx-auto p-4 flex text-base">
+        <aside className="w-4/5 space-y-4">
+          <h2 className="text-2xl ">
+            {movie.title}
+            <span className="text-sm"> ({movie.release_date})</span>
+          </h2>
+          <p>{movie.genres.map((x) => x.genre.name).join(" | ")}</p>
+          <h3 className="text-base font-semibold">
+            Price:
+            <span className="font-normal"> ${movie.price}</span>
+          </h3>
+          <h3 className="text-base font-semibold">
+            Overview:
+            <span className="font-normal"> {movie.overview}</span>
+          </h3>
+          <h3 className="text-base font-semibold">
+            Actors:
+            <span className="font-normal"> Actors ... </span>
+          </h3>
+          <h3 className="text-base font-semibold">
+            Director:
+            <span className="font-normal"> Director </span>
+          </h3>
+
+          <Link href={`/moviesdb-page/${movie.id}/edit`}>
+            <Button type="submit" className="mt-4 w-full btn-signin rounded-xl">
+              Update
+            </Button>
+          </Link>
         </aside>
       </div>
     </div>
