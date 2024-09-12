@@ -8,6 +8,7 @@ import { Inter as FontSans } from "next/font/google"
 import { SessionProvider } from 'next-auth/react';
 import { CartProvider } from '@/context/cartContext';
 import Navbar from "@/components/ui/Navbar";
+import { Footer } from "@/components/footer";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -36,7 +37,8 @@ export default function RootLayout({
                         <header>
                             <Navbar />
                         </header>
-                        <main>{children} </main>
+                        <main className="min-h-screen">{children} </main>
+                        <Footer />
                     </body>
 
                     </html>

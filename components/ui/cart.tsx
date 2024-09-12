@@ -29,12 +29,12 @@ export function Cart() {
         ) : (
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <h1 className="text-2xl font-bold mb-8">Shopping Cart</h1>
-                <div className="grid md:grid-cols-[1fr_300px] gap-8">
+                <div className="grid md:grid-cols-[1fr_500px] gap-8">
                     <div className="grid gap-6">
                         {Object.values(cart).map((item) => (
                             <div key={item.id} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
                             <Image
-                                src={item.poster_path} alt="movie image" width={64} height={64}
+                                src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt="movie image" width={100} height={100}
                                 className="rounded-lg object-cover h-34 w-34"
                             />
                             <div className="grid gap-1">
@@ -76,21 +76,24 @@ export function Cart() {
                         <CardHeader>
                             <CardTitle>Order Summary</CardTitle>
                         </CardHeader>
-                        <CardContent>
-                            <div className="grid gap-2">
-                            <div className="flex justify-between">
-                                <span>Subtotal</span>
-                                <span></span>
-                            </div>
-                            <div className="flex justify-between">
+                        <CardContent className="">
+                            {Object.values(cart).map((item) => (
+                                <div className="grid gap-5 my-5">
+                                    <div className="flex justify-between items-center">
+                                        <span>{item.title}</span>
+                                        <span>{item.price} kr</span>
+                                    </div>
+                                </div> 
+                            ))}
+                            <Separator />
+                            <div className="flex justify-between p-2 my-5">
                                 <span>Shipping</span>
                                 <span>Free</span>
                             </div>
                             <Separator />
-                            <div className="flex justify-between font-semibold">
+                            <div className="flex justify-between font-semibold py-2 my-5">
                                 <span>Total</span>
-                                <span></span>
-                            </div>
+                                <span>{ Object.values(cart).reduce((acc, item) => acc + item.quantity * item.price, 0) } kr</span>
                             </div>
                         </CardContent>
                         <CardFooter>

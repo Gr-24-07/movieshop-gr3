@@ -25,7 +25,8 @@ export default function Navbar() {
     const {cartCount} = useCart();
 
     const links = [
-        { lable: 'Movies', href: '/' },
+        { lable: 'Home', href: '/' },
+        { lable: 'Movies', href: '/movies' },
         { lable: 'Actors', href: '/movies/actors' },
         { lable: 'Contact', href: '/contact' },
     ]
@@ -33,7 +34,7 @@ export default function Navbar() {
     const [open, setOpen] = React.useState(false);
     return (
         <>
-        <nav className="navbar lg:block md:hidden ">
+        <nav className="hidden lg:block bg-brand h-24">
             <div className='container mx-auto flex justify-between space-x-5 items-center h-[100%] text-xl'>
                 <Link href='/' className="text-white mx-10c"><span className='flex items-center'><BiSolidCameraMovie className='text-5xl' />Movie<strong>Vault</strong></span></Link>
 
@@ -82,7 +83,7 @@ export default function Navbar() {
 
         </nav>
         
-        <nav className="flex justify-between items-center  lg:hidden  bg-brand  p-3 navbar">
+        <nav className="flex justify-between items-center  lg:hidden  bg-brand p-3 h-24">
 
             <div className="flex items-center gap-4">
                 <Sheet open={open} onOpenChange={setOpen}>
