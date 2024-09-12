@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { validateMovie } from "./validation-schema";
+import { validateEditMovie } from "./validation-schema";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Movie } from "@prisma/client";
@@ -9,8 +9,9 @@ import { Movie } from "@prisma/client";
 type updateMovie = Omit<Movie, "createdAt" | "updatedAt">;
 
 export async function EditMovie(id: number, formData: FormData) {
-  const result = await validateMovie(formData);
+  const result = await validateEditMovie(formData);
   if (!result.success) {
+    console.log(result.errors);
     return result;
   }
   const editmovie = result.data;
@@ -21,8 +22,7 @@ export async function EditMovie(id: number, formData: FormData) {
     data: {
       title: editmovie.title,
       release_date: Number(editmovie.releaseYear),
-      poster_path: editmovie.posterPath,
-      overview: "",
+      overview: editmovie.overview,
       // genre: editmovie.genre,
       price: Number(editmovie.price),
     },

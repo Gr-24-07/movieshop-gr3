@@ -1,7 +1,11 @@
+import { EditMovie } from "@/app/actions/edit";
 import { Button } from "@/components/ui/button";
+import Edit from "@/components/ui/edit";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export default async function MovieEditPage({
   params,
@@ -22,52 +26,102 @@ export default async function MovieEditPage({
   if (!movie) {
     return notFound();
   }
-  // const action = updateMovie.bind(null, movie.id);
+  const action = EditMovie.bind(null, movie.id);
 
   return (
-    <form className="flex flex-col gap-2 m-4 p-4">
-      <input
-        defaultValue={movie.title}
-        type="text"
-        placeholder="Edit Title..."
-        name="title"
-      />
-      <span className="text-sm"> ({movie.release_date})</span>
-
-      <input
-        defaultValue={movie.genres.map((x) => x.genre.name).join(" | ")}
-        type="text"
-        placeholder="Edit genre..."
-        name="genre"
-      />
-      <h3 className="font-bold">Genre: </h3>
-      <input
-        defaultValue={movie.genres.map((x) => x.genre.name).join(" | ")}
-        type="text"
-        placeholder="Edit genre..."
-        name="genre"
-      />
-      <h3 className="font-bold">
-        Price:
-        <span className="font-normal"> ${movie.price}</span>
-      </h3>
-      <h3 className="font-bold">
-        Overview:
-        <span className="font-normal"> {movie.overview}</span>
-      </h3>
-      <h3 className="font-bold">
-        Actors:
-        <span className="font-normal"> Matt Demon, Jackie Chan, ... </span>
-      </h3>
-      <h3 className="font-bold">
-        Director:
-        <span className="font-normal"> David Fincher </span>
-      </h3>
-      <Link href={`/moviesdb-page/${movie.id}`}>
-        <Button type="submit" className="mt-4 w-full btn-signin rounded-xl">
-          Save changes
-        </Button>
-      </Link>
+    <form className="flex flex-col gap-2 m-4 p-4" action={action}>
+      <div className="space-y-1">
+        <Label htmlFor="title" className="text-base">
+          Title
+        </Label>
+        <Input
+          className="pl-4 text-base"
+          defaultValue={movie.title}
+          type="text"
+          name="title"
+          id="title"
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="releaseYear" className="text-base">
+          Release Year
+        </Label>
+        <Input
+          className="pl-4 text-base"
+          defaultValue={movie.release_date}
+          type="text"
+          name="releaseYear"
+          id="releaseYear"
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="genre" className="text-base">
+          Genre
+        </Label>
+        <Input
+          className="pl-4 text-base"
+          defaultValue={movie.genres.map((x) => x.genre.name).join(" | ")}
+          type="text"
+          name="genre"
+          id="genre"
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="price" className="text-base">
+          Price
+        </Label>
+        <div className="relative">
+          <Input
+            className="pl-8 text-base"
+            defaultValue={movie.price}
+            type="text"
+            name="price"
+            id="price"
+          />
+          <span className="absolute top-0 left-0 inset-y-0 flex items-center justify-center px-4 pointer-events-none">
+            $
+          </span>
+        </div>
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="overview" className="text-base">
+          Overview
+        </Label>
+        <textarea
+          className="font-normal pl-4 text-base block w-full"
+          defaultValue={movie.overview}
+          name="overview"
+          id="overview"
+          rows={3}
+        ></textarea>
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="actors" className="text-base">
+          Actors
+        </Label>
+        <Input
+          className="pl-4 text-base"
+          // defaultValue={movie.actors}
+          type="text"
+          placeholder=" Edit actors..."
+          name="actors"
+          id="actors"
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="director" className="text-base">
+          Director
+        </Label>
+        <Input
+          className="pl-4 text-base"
+          // defaultValue={movie.director}
+          type="text"
+          placeholder=" Edit director..."
+          name="director"
+          id="director"
+        />
+      </div>
+      <Edit />
     </form>
   );
 }

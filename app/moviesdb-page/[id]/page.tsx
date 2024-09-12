@@ -35,35 +35,32 @@ export default async function MoviePage({
           alt={""}
         />
       </div>
-      <div className="container mx-auto p-4 flex">
+      <div className="container mx-auto p-4 flex text-base">
         <aside className="w-4/5 space-y-4">
           <h2 className="text-2xl ">
             {movie.title}
             <span className="text-sm"> ({movie.release_date})</span>
           </h2>
           <p>{movie.genres.map((x) => x.genre.name).join(" | ")}</p>
-          <h3 className="font-bold">
+          <h3 className="text-base font-semibold">
             Price:
             <span className="font-normal"> ${movie.price}</span>
           </h3>
-          <h3 className="font-bold">
+          <h3 className="text-base font-semibold">
             Overview:
             <span className="font-normal"> {movie.overview}</span>
           </h3>
-          <h3 className="font-bold">
+          <h3 className="text-base font-semibold">
             Actors:
-            <span className="font-normal"> Matt Demon, Jackie Chan, ... </span>
+            <span className="font-normal"> Actors ... </span>
           </h3>
-          <h3 className="font-bold">
+          <h3 className="text-base font-semibold">
             Director:
-            <span className="font-normal"> David Fincher </span>
+            <span className="font-normal"> Director </span>
           </h3>
 
           <Link href={`/moviesdb-page/${movie.id}/edit`}>
-            <Button
-              type="submit"
-              className="mt-4 w-full btn-signin  rounded-xl"
-            >
+            <Button type="submit" className="mt-4 w-full btn-signin rounded-xl">
               Update
             </Button>
           </Link>
