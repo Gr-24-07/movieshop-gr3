@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCart, addToCart, removeFromCart, updateCart, clearCart } from '@/app/actions/cart';
 import { Cart, Item } from '@/app/actions/cart';
 
-// Define the context type
+//################################### Define the context type ###################################
 type CartContextType = {
     items: Item[];
     cart: Cart;

@@ -1,8 +1,7 @@
-// /types/next-auth.d.ts
 import NextAuth from 'next-auth';
 import 'next-auth/jwt';
 
-// Extend the session and token
+// ################################### Extend the session and token ###################################
 declare module 'next-auth' {
     interface Session {
         user: {

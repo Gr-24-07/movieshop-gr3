@@ -27,11 +27,28 @@ CREATE TABLE "Genre" (
 );
 
 -- CreateTable
+CREATE TABLE "Actor" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "imagePath" TEXT,
+
+    CONSTRAINT "Actor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "MovieGenre" (
     "movieId" INTEGER NOT NULL,
     "genreId" INTEGER NOT NULL,
 
     CONSTRAINT "MovieGenre_pkey" PRIMARY KEY ("movieId","genreId")
+);
+
+-- CreateTable
+CREATE TABLE "MovieActor" (
+    "movieId" INTEGER NOT NULL,
+    "actorId" INTEGER NOT NULL,
+
+    CONSTRAINT "MovieActor_pkey" PRIMARY KEY ("movieId","actorId")
 );
 
 -- CreateTable
@@ -62,7 +79,7 @@ CREATE TABLE "Cart" (
 -- CreateTable
 CREATE TABLE "CartItem" (
     "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
+    "title" TEXT,
     "movieId" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" INTEGER NOT NULL,
@@ -77,7 +94,7 @@ CREATE TABLE "CartItem" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
     "totalAmount" INTEGER NOT NULL,
     "status" "Status" NOT NULL,
     "orderDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -122,6 +139,12 @@ ALTER TABLE "MovieGenre" ADD CONSTRAINT "MovieGenre_movieId_fkey" FOREIGN KEY ("
 ALTER TABLE "MovieGenre" ADD CONSTRAINT "MovieGenre_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genre"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "MovieActor" ADD CONSTRAINT "MovieActor_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "Movie"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MovieActor" ADD CONSTRAINT "MovieActor_actorId_fkey" FOREIGN KEY ("actorId") REFERENCES "Actor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -131,7 +154,7 @@ ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_movieId_fkey" FOREIGN KEY ("movi
 ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
