@@ -2,17 +2,18 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCart, addToCart, removeFromCart, updateCart, clearCart } from '@/app/actions/cart';
 import { Cart, Item } from '@/app/actions/cart';
 
-// Define the context type
+//################################### Define the context type ###################################
 type CartContextType = {
-  cart: Cart;
-  addItem: (item: Item) => void;
-  removeItem: (itemId: string) => void;
-  updateQuantity: (itemId: string, quantity: number) => void;
-  clearCart: () => void;
-  cartCount: number
+    items: Item[];
+    cart: Cart;
+    addItem: (item: Item) => void;
+    removeItem: (itemId: string) => void;
+    updateQuantity: (itemId: string, quantity: number) => void;
+    clearCart: () => void;
+    cartCount: number
 };
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cart, setCart] = useState<Cart>({});
@@ -73,7 +74,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const cartCount = Object.values(cart).reduce((acc, item) => acc + item.quantity, 0);
     return (
-        <CartContext.Provider value={{ cart, addItem, removeItem, updateQuantity, clearCart: clear, cartCount }}>
+        <CartContext.Provider value={{ cart, addItem, removeItem, updateQuantity, clearCart: clear, cartCount, items: Object.values(cart) }}>
         {children}
         </CartContext.Provider>
     );

@@ -31,8 +31,11 @@ export default function SignInPage() {
                 console.log('Session:', session);
 
                 if (session?.user?.role) {
-                    console.log('User role:', session.user.role);
-                    router.push('/dashboard/admin');
+                    if (session?.user?.role === 'ADMIN') {
+                        console.log('User role:', session.user.role);
+                        router.push('/dashboard/admin');
+                    }
+                    router.push('/');
                 } else {
                     console.error('Role is undefined in the session');
                 }

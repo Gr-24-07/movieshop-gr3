@@ -11,6 +11,7 @@ export interface MovieProp {
   release_date: number;
   poster_path: string;
   price: number;
+  overview: string;
 }
 
 interface Prop {
@@ -23,6 +24,8 @@ export default function Moviecard({ movie }: Prop) {
   const handleAddToCart = () => {
     const item = {
       id: movie.id,
+      title: movie.title,
+      poster_path: movie.poster_path,
       movieId: movie.id,
       name: movie.title,
       quantity: 1,
