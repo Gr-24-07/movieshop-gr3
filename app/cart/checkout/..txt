@@ -1,64 +1,86 @@
-// app/actions/checkoutAction.ts
-import { cookies } from 'next/headers';
-import { PrismaClient, Status } from '@prisma/client';
-import { redirect } from 'next/navigation';
+import prisma from "@/lib/prisma";
 
-const prisma = new PrismaClient();
+export async function GET(req: Request) {
 
-// Server Action for processing checkout, including user information for guest users
-export async function checkoutAction(
-  userInfo: { fullname: string; email: string; address: string; phone: string; city: string; zipCode: string; country: string }
-) {
-  // Retrieve cart from cookies for non-logged-in users
-  const cartCookie = cookies().get('CART_COOKIE');
-  if (!cartCookie) {
-    throw new Error('Cart is empty');
-  }
-
-  let cartItems;
-  try {
-    cartItems = JSON.parse(cartCookie.value);
-    if (!Array.isArray(cartItems) || cartItems.length === 0) {
-      throw new Error('Cart is empty');
+    const [movieResponse, genreResponse, personResponse] = await Promise.all([
+        fetch('https://api.themoviedb.org/3/discover/movie?api_key=4bd1384ac2f13ea51c45906c0d46fd27'),
+        fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=4bd1384ac2f13ea51c45906c0d46fd27'),
+        fetch('https://api.themoviedb.org/3/person/popular?api_key=4bd1384ac2f13ea51c45906c0d46fd27')
+    ]);
+         
+    if (!movieResponse.ok && !genreResponse.ok && !personResponse.ok) { {
+        throw new Error('API call failed with status');
     }
-  } catch (error) {
-    throw new Error('Invalid cart data');
-  }
 
-  // Calculate the total amount
-  const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const  moviesData  = await movieResponse.json();
+    const genresData  = await genreResponse.json();
+    const personsData = await personResponse.json();
 
-  // Simulate payment success
-  const paymentSuccess = true;  // Simulate a successful payment for demonstration purposes
+    if (!moviesData.results || !genresData.genres || !personsData.persons) {
+        throw new Error('Unexpected API response structure.');
+    }
 
-  if (!paymentSuccess) {
-    throw new Error('Payment failed');
-  }
+    const { genres } = genresData
+    const { results } = moviesData
 
-  // Create the order for guest users (without user ID)
-  await prisma.order.create({
-    data: {
-      totalAmount,
-      status: Status.PENDING,
-      orderItems: {
-        create: cartItems.map((item) => ({
-          movieId: item.id,
-          quantity: item.quantity,
-          priceAtPurchase: item.price,
+    const persons = personsData.results
+
+    await prisma.genre.createMany({
+        data: genres.map((genre: { id: number; name: string }) => ({
+            id: genre.id,
+            name: genre.name,
         })),
-      },
-      name: userInfo.fullname,
-      email: userInfo.email,
-      address: userInfo.address,
-      city: userInfo.city,
-      zipCode: userInfo.zipCode,
-      country: userInfo.country,
-      phone: userInfo.phone,
-    },
-  });
+        skipDuplicates: true,
+    });
 
-  // Clear the cart from cookies
-  cookies().delete('CART_COOKIE');
+    await prisma.actor.createMany({
+        data: persons.map((person: { id: number; name: string }) => ({
+            id: person.id,
+            name: person.name,
+        })),
+        skipDuplicates: true,
+    });
 
-  redirect('/confirmation');  // Redirect to the order confirmation page
+    for (const movie of results) {
+        const insertMovie = await prisma.movie.upsert({
+            where: { id: movie.id },
+            update: {},
+            create: {
+                id: movie.id,
+                title: movie.title,
+                overview: movie.overview,
+                poster_path: movie.poster_path,
+                release_date: new Date(movie.release_date).getFullYear(),
+                genres: movie.genres,
+                price: Math.round(Math.random() * 100) +10,
+            }
+        });
+
+        await prisma.movieGenre.createMany({
+            data: movie.genre_ids.map((genreId: number) => ({
+                movieId: insertMovie.id,
+                genreId: genreId
+            })),
+            skipDuplicates: true
+        })
+
+        await prisma.movieActor.createMany({
+            data: movie.actors.map((actor: { id: number; name: string }) => ({
+                movieId: insertMovie.id,
+                personId: actor.id
+            })),
+            skipDuplicates: true
+        })
+    }
+    
+        
+
+    console.log('Movies fetched:', moviesData);
+    console.log('Genres fetched:', genresData);
+    console.log('Persons fetched:', personsData);
+
+    return new Response(JSON.stringify({ message: 'Movies fetched and stored successfully' }), { status: 200 });
 }
+
+
+} 

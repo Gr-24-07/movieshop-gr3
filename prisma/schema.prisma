@@ -20,6 +20,8 @@ model Movie {
     updatedAt    DateTime     @default(now())
     price        Int
     OrderItem    OrderItem[]
+
+    MovieActor MovieActor[]
 }
 
 model Genre {
@@ -28,6 +30,12 @@ model Genre {
     movies MovieGenre[]
 }
 
+model Actor {
+    id     Int          @id @default(autoincrement())
+    name   String
+    movies MovieActor[]
+    imagePath  String?
+}
 model MovieGenre {
     movieId Int
     genreId Int
@@ -37,6 +45,14 @@ model MovieGenre {
     @@id([movieId, genreId])
 }
 
+model MovieActor {
+    movieId Int
+    actorId Int
+    movie  Movie @relation(fields: [movieId], references: [id])
+    actor  Actor @relation(fields: [actorId], references: [id])
+
+    @@id([movieId, actorId])
+}
 // ############## USERS  MODEL ##########################
 
 enum Role {

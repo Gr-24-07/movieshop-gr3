@@ -26,7 +26,7 @@ export default function Navbar() {
 
     const links = [
         { lable: 'Movies', href: '/' },
-        { lable: 'Actors', href: '/actors' },
+        { lable: 'Actors', href: '/movies/actors' },
         { lable: 'Contact', href: '/contact' },
     ]
 
