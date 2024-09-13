@@ -73,11 +73,17 @@ export default function SignInPage() {
                     <form className="space-y-4" onSubmit={handleSignIn}>
                         <div className="space-y-4">
                             <Label htmlFor="email">Email</Label>
-                            <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" name="email"  type="email" placeholder="m@example.com" className="input rounded-xl" required />
+                            <Input value={email} onChange={(e) => setEmail(e.target.value)} 
+                                id="email" name="email"  type="email" placeholder="m@example.com" 
+                                className="input rounded-xl" required
+                                autoComplete="on" />
+                                
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password">Password</Label>
-                            <Input value={password} onChange={(e) => setPassword(e.target.value)}  id="password" type="password" name="password"  placeholder="••••••••" required  className="input rounded-xl"/>
+                            <Input value={password} onChange={(e) => setPassword(e.target.value)}  
+                                id="password" type="password" name="password"  placeholder="••••••••" required  
+                                className="input rounded-xl"/>
                         </div>
                         <Button type="submit" className="w-full btn-signin  rounded-xl"> Sign in </Button>
                     </form>

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { Item } from "@/app/actions/cart";
+import { ClearBtn } from "../clear-btn";
 
 export function Cart() {
   const { cart, clearCart, removeItem, updateQuantity } = useCart();
@@ -29,6 +30,7 @@ export function Cart() {
         ) : (
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <h1 className="text-2xl font-bold mb-8">Shopping Cart</h1>
+                <ClearBtn />
                 <div className="grid md:grid-cols-[1fr_500px] gap-8">
                     <div className="grid gap-6">
                         {Object.values(cart).map((item) => (

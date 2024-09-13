@@ -9,7 +9,7 @@ export default async function CustomerDashboard() {
     const session = await auth();
 
     if (!session || session.user?.role !== 'CUSTOMER') {
-        redirect('/auth/signin');
+        redirect('/signin');
     }
 
     return (

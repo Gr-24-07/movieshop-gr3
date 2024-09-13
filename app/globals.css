@@ -108,16 +108,27 @@
     width: 100%;
     height: 100%;
 }
-.movie-card {
+.movie-card  {
     width: 100%;
-    border: 0.05rem solid #5a639c;
+    border: 0.1rem solid #5a639c;
+    border-radius: .8rem;
     margin: 1rem;
     margin: auto;
     gap: 10px;
 }
+.cart-info  {
+   font-size: 1rem;
+   font-weight: 700;
+   border-radius: .8rem;
+}
+
+.cart-info  h3{
+    font-size: 1rem;
+ }
 .movie-card img {
     width: 100%;
     height: 100%;
+   
 }
 .movie-title {
     font-size: 0.5rem !important;
@@ -146,7 +157,7 @@
 .btn {
     background-color: #322653;
     color: #cecece;
-    z-index: 999;
+    z-index: 9;
     transition: ease-in-out 0.1s;
     border: 0.1rem solid #FFD2D7;
 }

@@ -8,7 +8,12 @@ import prisma from "@/lib/prisma"
 
 export async function SuccessPage() {
   const order = await prisma.order.findFirst()
-  const orderItems = [] as OrderItem[]
+  const orderItems = await prisma.orderItem.deleteMany({
+    where: {
+      orderId: order?.id
+
+    }
+  })
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md text-center">

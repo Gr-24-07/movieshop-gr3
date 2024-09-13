@@ -7,7 +7,7 @@ export default async function Dashboard() {
     const session = await auth();
 
     if (!session || session.user.role !== 'ADMIN') {
-        redirect('/auth/signin');
+        redirect('/signin');
     }
 
     return (
