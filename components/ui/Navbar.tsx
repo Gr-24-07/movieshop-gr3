@@ -26,7 +26,7 @@ export default function Navbar() {
   const links = [
     { lable: 'Home', href: '/' },
     { lable: 'Movies', href: '/movies' },
-    { lable: 'Actors', href: '/movies/actors' },
+    { lable: 'Actors', href: '/actors' },
     { lable: 'Contact', href: '/contact' },
   ]
 
@@ -59,7 +59,7 @@ export default function Navbar() {
             )}
 
             {session?.user?.role === 'CUSTOMER' && (
-              <Link className='flex items-center text-white px-3 py-1 rounded text-center' href="dashboard/customer"><AiOutlineUser className='text-3xl' /></Link>
+              <Link className='flex items-center text-white px-3 py-1 rounded text-center' href="customerDashboard"><AiOutlineUser className='text-3xl' /></Link>
 
             )}
 

@@ -1,4 +1,4 @@
-'use sever';
+'use client';
 import { MovieGenre } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import {
@@ -12,16 +12,13 @@ import {
 interface Genre {
   id: number;
   name: string;
-  movies: MovieGenre[]; // added from prisma
 }
  
-interface Props {
+interface GenrePageProps {
   genres: Genre[];
 }
  
-const GenresPage = async () => {
-  const genreList = await prisma.genre.findMany({
-  });
+const GenresPage = async ({ genres}: GenrePageProps) => {
   return (
     <div>
       <Select>
@@ -29,7 +26,7 @@ const GenresPage = async () => {
           <SelectValue placeholder="Select Genre" />
         </SelectTrigger>
         <SelectContent>
-          {genreList.map((genre) => (
+          {genres.map((genre) => (
             <SelectItem value={genre.name} key={genre.id}>
               {genre.name}
             </SelectItem>

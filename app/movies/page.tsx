@@ -20,7 +20,15 @@ export default async function MoviesPage({searchParams}: {searchParams?: {query?
     const query = searchParams?.query || '';
     const genre = searchParams?.query || '';
     const currentpage = Number(searchParams?.page) || 1;
- 
+
+    const genres = await prisma.genre.findMany({
+        select: {
+            id: true,
+            name: true
+        },
+        
+    });
+
     const movies = await prisma.movie.findMany({
         where: {
             title: {
@@ -28,22 +36,26 @@ export default async function MoviesPage({searchParams}: {searchParams?: {query?
                 mode: 'insensitive'
             },
         },
-        
+        include: {
+            genres: true
+        },
         take: pageSize,
         skip: (currentpage - 1) * pageSize,
-        
     });
-
-  const totalMovies = await prisma.movie.count();
-  const totalPages = Math.ceil(totalMovies / pageSize);
+    const totalMovies = await prisma.movie.count();
+    const totalPages = Math.ceil(totalMovies / pageSize);
  
   return (
     <div>
       <main className="container mx-auto min-h-screen">
         <h1 className="text-3xl font-bold text-center my-10">All Movies</h1>
+
+        {
+          genre && <p className="text-center">Showing movies from {genre}</p>
+        }
         <div className="flex gap-8 justify-between my-10">
           <SearchBar />
-          <GenresPage />
+          <GenresPage genres={genres} />
         </div>
         
           <div className='movie-cards grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8  my-10'>
